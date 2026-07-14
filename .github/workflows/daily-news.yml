@@ -1,17 +1,13 @@
-# 小宝专属每日要闻 —— 自动刷新工作流（方案 A：以 GitHub 仓库为唯一生成源）
-# 触发：每小时第 16 分钟（北京时间）+ 手动触发（Actions 页面/CLI Run workflow）
-# 行为：运行 build_news.py 实时抓取并刷新 index.html，提交回 main 分支 → GitHub Pages 自动部署
-# 注：GitHub 原生 on:schedule 当前对该仓库不触发(平台侧调度问题，已多次验证)，自动刷新暂以手动/CLI/外部调度器触发兜底。
 name: 每日要闻自动刷新
 
 on:
   schedule:
-    # 每小时第 16 分钟触发一次（北京时间），刷新网页
+    # 每小时第 16 分钟触发一次
     - cron: "16 * * * *"
-  workflow_dispatch: {}   # 允许在 Actions 页面/CLI 手动触发，便于验证与兜底
+  workflow_dispatch:
 
 permissions:
-  contents: write        # 需要写权限以提交刷新后的 index.html
+  contents: write
 
 concurrency:
   group: daily-news
