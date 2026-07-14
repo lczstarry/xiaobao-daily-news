@@ -2,8 +2,8 @@ name: 每日要闻自动刷新
 
 on:
   schedule:
-    # 每小时第 16 分钟触发一次
-    - cron: "16 * * * *"
+    # 临时测试：每 3 分钟触发一次，验证 on:schedule 是否生效
+    - cron: "*/3 * * * *"
   workflow_dispatch:
 
 permissions:
