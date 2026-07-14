@@ -11,7 +11,9 @@
 """
 import json, os, re, html, datetime, email.utils, urllib.request, urllib.parse
 
-_NOW = datetime.datetime.now()
+# 中国标准时间 = UTC+8（不实行夏令时，固定偏移即可；确保 GitHub Actions(UTC) 与本地都显示北京时间）
+_BEIJING = datetime.timezone(datetime.timedelta(hours=8))
+_NOW = datetime.datetime.now(_BEIJING)
 TODAY = _NOW.strftime("%Y-%m-%d")
 SNAP = _NOW.strftime("%Y年%m月%d日")
 WK = ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"][_NOW.weekday()]
