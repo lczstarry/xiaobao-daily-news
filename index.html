@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>小宝专属的每日要闻 · 2026年07月14日</title>
+<title>小宝专属的每日要闻 · 2026年07月13日</title>
 <style>
 :root{--bg:#f6f5f1;--panel:#fff;--ink:#1f2933;--muted:#6b7280;--line:#e7e3da;
   --shadow:0 1px 3px rgba(40,30,10,.06),0 8px 24px rgba(40,30,10,.05);--gold:#a16207;}
@@ -12,6 +12,37 @@ body{margin:0;background:var(--bg);color:var(--ink);
  font:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
  line-height:1.6;-webkit-font-smoothing:antialiased}
 a{color:inherit}
+
+/* ===== 顶部导航栏（站名 + 日期选择器） ===== */
+.topbar{position:sticky;top:0;z-index:30;background:rgba(246,245,241,.9);
+ backdrop-filter:saturate(150%) blur(10px);border-bottom:1px solid var(--line)}
+.topbar-row{max-width:1240px;margin:0 auto;padding:9px 22px;display:flex;align-items:center;
+ gap:14px;justify-content:space-between;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:800;white-space:nowrap}
+.brand .paw{font-size:18px}
+.datedock{display:flex;align-items:center;gap:8px}
+.datedock .navbtn{width:32px;height:32px;border:1px solid var(--line);background:var(--panel);
+ border-radius:9px;font-size:17px;font-weight:700;color:var(--ink);display:grid;place-items:center;
+ box-shadow:var(--shadow);transition:.15s}
+.datedock .navbtn:hover{border-color:var(--gold);color:var(--gold)}
+.datedock input[type=date]{border:1px solid var(--line);background:var(--panel);border-radius:9px;
+ padding:6px 9px;font-size:13px;color:var(--ink);box-shadow:var(--shadow);outline:none}
+.datedock input[type=date]:focus{border-color:var(--gold)}
+.datedock .todaybtn{border:1px solid var(--gold);background:#fff7e6;color:var(--gold);
+ border-radius:9px;padding:6px 11px;font-size:13px;font-weight:700;white-space:nowrap;transition:.15s}
+.datedock .todaybtn:hover{background:var(--gold);color:#fff}
+
+/* ===== 分类菜单（第二行，横向滚动） ===== */
+.catbar{border-top:1px solid var(--line);background:rgba(246,245,241,.6)}
+.catbar-inner{max-width:1240px;margin:0 auto;padding:7px 22px;display:flex;gap:6px;
+ overflow-x:auto;scrollbar-width:none}
+.catbar-inner::-webkit-scrollbar{display:none}
+.catbar-inner a{flex:0 0 auto;text-decoration:none;font-size:12.5px;font-weight:600;color:var(--muted);
+ padding:6px 11px;border-radius:999px;border:1px solid transparent;white-space:nowrap;transition:.15s}
+.catbar-inner a:hover{color:var(--ink);background:#fff;border-color:var(--line)}
+.catbar-inner a.active{color:#fff;background:var(--gold);border-color:var(--gold)}
+
+/* ===== Hero 头图 ===== */
 .hero{background:linear-gradient(135deg,#fef3c7 0%,#fdf6ec 55%,#ecfdf5 100%);border-bottom:1px solid var(--line)}
 .hero-inner{max-width:1240px;margin:0 auto;padding:36px 22px 28px}
 .kicker{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.12em;
@@ -39,20 +70,13 @@ a{color:inherit}
 .chip .n{font-weight:800;font-size:15px}
 .chip .l{color:var(--muted)}
 
-.nav{position:sticky;top:0;z-index:20;background:rgba(246,245,241,.86);
- backdrop-filter:saturate(150%) blur(10px);border-bottom:1px solid var(--line)}
-.nav-inner{max-width:1240px;margin:0 auto;padding:8px 22px;display:flex;gap:6px;overflow-x:auto}
-.nav a{flex:0 0 auto;text-decoration:none;font-size:12.5px;font-weight:600;color:var(--muted);
- padding:6px 11px;border-radius:999px;border:1px solid transparent;white-space:nowrap}
-.nav a:hover{color:var(--ink);background:#fff;border-color:var(--line)}
-
+/* ===== 主内容 ===== */
 main{max-width:1240px;margin:0 auto;padding:6px 22px 30px}
-.sec{scroll-margin-top:58px;padding-top:20px}
+.sec{scroll-margin-top:112px;padding-top:20px}
 .sec-h{display:flex;align-items:center;gap:10px;margin:4px 0 14px}
 .sec-bar{width:5px;height:24px;border-radius:3px}
 .sec-h h2{margin:0;font-size:19px;font-weight:800}
 .sec-h .cnt{margin-left:auto;color:var(--muted);font-size:13px;font-weight:600}
-
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;
  padding:16px 16px 14px;box-shadow:var(--shadow);display:flex;flex-direction:column;
@@ -69,8 +93,14 @@ main{max-width:1240px;margin:0 auto;padding:6px 22px 30px}
 .card .lnk{align-self:flex-start;text-decoration:none;font-size:13px;font-weight:700;
  color:var(--gold);display:inline-flex;align-items:center;gap:4px}
 .card .lnk:hover{text-decoration:underline}
+/* 重点问题高亮 */
+.card.issue{border-left:4px solid #e11d48;background:linear-gradient(0deg,#fff6f7,#fff)}
+.card.issue .title{color:#9f1239}
+.issue-badge{display:inline-flex;align-items:center;gap:3px;align-self:flex-start;
+ font-size:11px;font-weight:800;color:#fff;background:#e11d48;
+ border-radius:999px;padding:2px 9px;margin-bottom:8px;letter-spacing:.5px}
 
-.sources{scroll-margin-top:58px;padding-top:20px}
+.sources{scroll-margin-top:112px;padding-top:20px}
 .sources h2{font-size:19px;font-weight:800;margin:0 0 4px}
 .sources .ld{color:var(--muted);font-size:13.5px;margin:0 0 16px}
 .src-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
@@ -86,7 +116,26 @@ footer{border-top:1px solid var(--line);background:var(--panel)}
  display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;justify-content:space-between}
 .foot a{color:var(--gold);text-decoration:none;font-weight:600}
 .foot a:hover{text-decoration:underline}
-@media(max-width:560px){.grid,.src-g{grid-template-columns:1fr}.stats{gap:10px}.stat-total{min-width:90px;padding:10px 14px}}
+
+/* 骨架屏 */
+.skeleton{pointer-events:none}
+.skel-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;height:150px;
+ box-shadow:var(--shadow);position:relative;overflow:hidden}
+.skel-card::after{content:"";position:absolute;inset:0;
+ background:linear-gradient(90deg,transparent,rgba(161,98,7,.08),transparent);
+ transform:translateX(-100%);animation:shimmer 1.1s infinite}
+@keyframes shimmer{100%{transform:translateX(100%)}}
+.skel-line{height:12px;border-radius:6px;background:#efe9dd;margin-bottom:10px}
+.skel-line.w70{width:70%}.skel-line.w90{width:90%}.skel-line.w50{width:50%}
+
+/* 空状态 */
+.empty{max-width:560px;margin:60px auto;text-align:center;color:var(--muted);padding:0 22px}
+.empty .ico{font-size:48px}
+.empty h3{margin:14px 0 6px;color:var(--ink);font-size:19px}
+.empty p{font-size:14px;margin:0 0 18px}
+.empty button{border:1px solid var(--gold);background:#fff7e6;color:var(--gold);
+ border-radius:10px;padding:9px 16px;font-size:13px;font-weight:700}
+
 .care{max-width:1080px;margin:18px auto 0;padding:18px 22px;background:linear-gradient(135deg,#fff7ed,#fef3f2);
   border:1px solid #fed7aa;border-radius:16px;box-shadow:var(--shadow)}
 .care ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px}
@@ -98,161 +147,381 @@ footer{border-top:1px solid var(--line);background:var(--panel)}
 .wcard .wcond{font-size:13px;color:#374151;margin:6px 0 8px;font-weight:600}
 .wcard .wmeta{font-size:13px;color:var(--muted);margin-bottom:10px}
 .wcard .wtip{font-size:13px;color:#7c2d12;background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:8px 10px;margin:0;line-height:1.5}
-.wcard .wmore{margin-top:10px;font-size:12px;color:#0e7490;font-weight:700;background:#ecfeff;
-  border:1px solid #a5f3fc;border-radius:8px;padding:6px 10px;text-align:center}
-.care h3{margin:0 0 12px;font-size:15px;color:#9a3412;display:flex;align-items:center;gap:8px}
-.wxm{position:fixed;inset:0;background:rgba(15,23,42,.45);display:none;align-items:center;
-  justify-content:center;z-index:60;padding:20px}
-.wxm.show{display:flex}
-.wxm-box{background:#fff;border-radius:18px;max-width:940px;width:100%;max-height:86vh;overflow:auto;
-  box-shadow:0 20px 60px rgba(0,0,0,.3);padding:20px 22px}
-.wxm-head{font-size:17px;font-weight:800;color:#1f2933;margin-bottom:14px;display:flex;align-items:center;gap:10px}
-.wxm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(122px,1fr));gap:12px}
-.wxd{background:#f6f5f1;border:1px solid var(--line);border-radius:12px;padding:12px 10px;text-align:center;
-  display:flex;flex-direction:column;gap:5px}
-.wxd .wxw{font-size:12.5px;color:var(--muted);font-weight:700}
-.wxd .wxe{font-size:26px}
-.wxd .wxc{font-size:12.5px;color:#374151;font-weight:600;min-height:34px;display:flex;align-items:center;justify-content:center;line-height:1.3}
-.wxd .wxt{font-size:14px;font-weight:800;color:var(--gold)}
-.wxd .wxp{font-size:12px;color:#0e7490}
-.wxd .wxw2{font-size:11.5px;color:var(--muted)}
-.wxm-close{margin:0;cursor:pointer;color:var(--gold);font-weight:800;font-size:18px;line-height:1;
-  flex:0 0 auto;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;
-  background:#f4f1ea;border:1px solid var(--line);border-radius:8px;transition:background .15s,transform .15s}
-.wxm-close:hover{background:#fde68a;transform:scale(1.06)}
+
+@media(max-width:560px){
+ .grid,.src-g{grid-template-columns:1fr}.stats{gap:10px}.stat-total{min-width:90px;padding:10px 14px}
+ .topbar-row{padding:8px 14px;gap:10px}.hero-inner{padding:26px 14px 20px}
+ main{padding:6px 14px 26px}.datedock input[type=date]{width:140px}
+}
 </style>
 </head>
 <body>
-<header class="hero"><div class="hero-inner">
-  <span class="kicker">🐾 小宝专属的每日要闻</span>
-  <h1 class="hero-date" id="hd"></h1>
-  <p class="hero-range" id="hr"></p>
-  <p class="hero-upd" id="hu"></p>
-  <div class="love" id="love"></div>
-  <div class="stats">
-    <div class="stat-total"><b id="tc">0</b><span>新闻条数</span></div>
-    <div class="chips" id="sc"></div>
-  </div>
-</div></header>
-<nav class="nav"><div class="nav-inner" id="nv"></div></nav>
-<section class="care" id="care"></section>
-<main id="app"></main>
-<div class="wxm" id="wxm">
-  <div class="wxm-box">
-    <div class="wxm-head">
-      <button type="button" class="wxm-close" id="wxmclose" title="关闭">✕</button>
-      <span class="wxm-title" id="wxmh"></span>
+
+<!-- 顶部导航栏 -->
+<header class="topbar">
+  <div class="topbar-row">
+    <a class="brand" href="#top"><span class="paw">🐾</span> 小宝专属的每日要闻</a>
+    <div class="datedock">
+      <button class="navbtn" id="prevDay" title="前一天">‹</button>
+      <input type="date" id="datePicker" aria-label="选择日期">
+      <button class="navbtn" id="nextDay" title="后一天">›</button>
+      <button class="todaybtn" id="todayBtn">今天</button>
     </div>
-    <div class="wxm-grid" id="wxmg"></div>
   </div>
-</div>
+  <nav class="catbar"><div class="catbar-inner" id="nv"></div></nav>
+</header>
+
+<!-- Hero 头图 -->
+<section class="hero" id="top">
+  <div class="hero-inner">
+    <span class="kicker">🐾 小宝专属的每日要闻</span>
+    <h1 class="hero-date" id="hd"></h1>
+    <p class="hero-range" id="hr"></p>
+    <p class="hero-upd" id="hu"></p>
+    <div class="love" id="love"></div>
+    <div class="stats">
+      <div class="stat-total"><b id="tc">0</b><span>新闻条数</span></div>
+      <div class="chips" id="sc"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 小宝的叮嘱 -->
+<section class="care" id="care"></section>
+
+<!-- 主内容 -->
+<main id="app"></main>
+
+<!-- 页脚 -->
 <footer><div class="foot"><div id="ft"></div><div>数据来源：公开网络检索快照（<span id="fd"></span>）</div></div></footer>
-<script type="application/json" id="data">{"snap": "2026年07月14日", "wk": "星期二", "updated": "2026年07月14日 11:20", "new_count": 49, "love_days": 619, "sections": [{"label": "今日热点速览", "items": [{"title": "36氪首发 | 前博世自动驾驶算法工程师创业，用合成数据做触觉大模型", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/p/3894821059918855?f=rss", "sum": "触觉手套（图源/企业）\n  \n   本文约2400字，建议阅读6分钟\n  \n  作者丨欧雪\n  编辑丨袁斯来\n  硬氪获悉，空间智能公司「大衍科技」近期完成数千万元天使轮融资，由松禾资本领投，浙江省省金控与广州番禺创新基金等国资背景机构参与。资金将主要用于触觉大模型研发、机器人数据产线建设及团队扩张", "live": true, "is_new": true}, {"title": "人形机器人公司逐际动力完成2亿美元Pre-IPO轮融资，投后估值达150亿元｜最前线", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/p/3893976502287618?f=rss", "sum": "作者｜黄楠\n  编辑｜袁斯来\n  硬氪获悉，通用人形机器人公司逐际动力LimX Dynamics宣布完成Pre-IPO轮融资，融资金额近2亿美元，投资方包括IDG资本、蓝思科技、GGG Group与Redstone VC、华山资本、合肥滨湖产发集团等。此外，阿联酋磊石资本（Stone Venture", "live": true, "is_new": true}, {"title": "8点1氪丨海南将成中国首个禁售燃油车省份；长鑫科技部分员工入股成本低至1毛；SK海力士暴跌15%", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/p/3894729787767810?f=rss", "sum": "今日热点导览\n  \n   韩国法院禁止两名前三星员工就职于SK海力士\n   字节探索自动驾驶，Seed世界模型团队负责\n   巨力索具深夜澄清商业航天业务不实传闻，提醒投资风险\n   科技记者古尔曼：苹果将跳过M6 Pro/Max芯片全力押注AI导向的M7系列\n   美众议院本周将表决永久实行夏令时", "live": true, "is_new": true}, {"title": "韩国交易所启动SIDECAR机制，暂停KOSDAQ程序化卖盘", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894912567802884?f=rss", "sum": "36氪获悉，韩国交易所启动SIDECAR机制，暂停KOSDAQ程序化卖盘。", "live": true, "is_new": true}, {"title": "海关总署：上半年中美货物贸易总值2万亿元", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894910317444098?f=rss", "sum": "国务院新闻办公室今天（14日）举行发布会，介绍今年以来我国外贸运行情况。发布会上，海关总署新闻发言人介绍，据中国海关统计，上半年中美货物贸易总值2万亿元，占我国外贸总值的7.9%，其中一季度下降18.7%，二季度增长13.7%。（央视新闻）", "live": true, "is_new": true}, {"title": "软银集团推出基于OpenAI技术的网络安全服务", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894908810771460?f=rss", "sum": "7月14日，软银集团与SB OAI Japan正式推出基于OpenAI技术的网络安全服务“Patching as a Service”，该服务已扩展至3000家企业。（新浪财经）", "live": true, "is_new": true}, {"title": "中国电信旗下易信业务调整：余额功能将无法使用", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894907732851976?f=rss", "sum": "中国电信旗下社交软件易信将于今年8月起进行业务调整，届时余额功能将无法使用。易信客服向新浪科技确认了该业务调整的消息，其表示8月后易信App钱包功能将做调整，如果钱包尚有余额，建议目前尽快提现，否则届时可能无法提现和使用。工作人员表示，后续钱包功能可能会下架，至于易信App的其它功能是否会受到影响，", "live": true, "is_new": true}, {"title": "小米景明在绵阳成立新科技公司，注册资本100万", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894904700828672?f=rss", "sum": "36氪获悉，天眼查App显示，近日，绵阳小米景明科技有限公司成立，法定代表人为樊家麟，注册资本100万人民币，经营范围含汽车销售、新能源汽车整车销售、新能源汽车换电设施销售、电动汽车充电基础设施运营、充电桩销售等。股东信息显示，该公司由小米景明科技有限公司全资持股。", "live": true, "is_new": true}, {"title": "韩国将2026年经济增长率预期从此前的2%上调至3%", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894892282444809?f=rss", "sum": "韩国将2026年经济增长率预期从此前的2%上调至3%；预测2026年通胀率为2.6%，较此前预测的2.1%上调。（财联社）", "live": true, "is_new": true}, {"title": "启境汽车增资至30.2亿，增幅约44%", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894888469150725?f=rss", "sum": "36氪获悉，天眼查App显示，近日，启境汽车关联公司启境智能汽车科技（广州）有限公司发生工商变更，新增泓途一号企业管理（广州）合伙企业（有限合伙）、嘉兴博原亿成股权投资合伙企业（有限合伙）等为股东。同时，注册资本由21亿人民币增至约30.2亿人民币，增幅约44%。该公司成立于2025年3月，法定代表", "live": true, "is_new": true}, {"title": "海关总署：中国6月稀土出口5104.8吨", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894894048509184?f=rss", "sum": "36氪获悉，海关总署公布的数据显示，中国6月稀土出口5104.8吨，1-6月稀土出口30482.8吨。", "live": true, "is_new": true}, {"title": "韩国拟大举放松资本交易外汇规定", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894891516443905?f=rss", "sum": "韩国拟大举放松资本交易外汇规定，将强化应对韩元波动的24小时反应机制。（财联社）", "live": true, "is_new": true}], "weather": false}, {"label": "天气要闻 · 北京 / 大连 / 本溪 / 德州", "items": [{"city": "北京", "temp": 32, "cond": "阴", "code": 3, "high": 33, "low": 26, "wind": "北风 6 km/h", "hum": 54, "note": "云量较多，体感舒适☁️；高温天气，注意防暑🔥", "forecast": [{"date": "2026-07-14", "code": 3, "cond": "阴", "high": 33, "low": 26, "pop": 0, "wind": 9}, {"date": "2026-07-15", "code": 2, "cond": "局部多云", "high": 35, "low": 24, "pop": 0, "wind": 12}, {"date": "2026-07-16", "code": 3, "cond": "阴", "high": 34, "low": 24, "pop": 0, "wind": 8}, {"date": "2026-07-17", "code": 3, "cond": "阴", "high": 33, "low": 25, "pop": 6, "wind": 14}, {"date": "2026-07-18", "code": 51, "cond": "毛毛雨", "high": 32, "low": 23, "pop": 25, "wind": 9}, {"date": "2026-07-19", "code": 53, "cond": "毛毛雨", "high": 31, "low": 22, "pop": 53, "wind": 11}, {"date": "2026-07-20", "code": 95, "cond": "雷阵雨", "high": 27, "low": 23, "pop": 65, "wind": 8}, {"date": "2026-07-21", "code": 96, "cond": "雷阵雨伴冰雹", "high": 29, "low": 23, "pop": 43, "wind": 6}, {"date": "2026-07-22", "code": 95, "cond": "雷阵雨", "high": 29, "low": 22, "pop": 37, "wind": 6}, {"date": "2026-07-23", "code": 51, "cond": "毛毛雨", "high": 30, "low": 23, "pop": 29, "wind": 10}, {"date": "2026-07-24", "code": 1, "cond": "大致晴朗", "high": 34, "low": 26, "pop": 32, "wind": 4}, {"date": "2026-07-25", "code": 96, "cond": "雷阵雨伴冰雹", "high": 33, "low": 25, "pop": 33, "wind": 8}, {"date": "2026-07-26", "code": 95, "cond": "雷阵雨", "high": 32, "low": 26, "pop": 36, "wind": 6}, {"date": "2026-07-27", "code": 95, "cond": "雷阵雨", "high": 32, "low": 25, "pop": 42, "wind": 9}, {"date": "2026-07-28", "code": 95, "cond": "雷阵雨", "high": 30, "low": 25, "pop": 33, "wind": 11}], "is_new": false}, {"city": "大连", "temp": 25, "cond": "毛毛雨", "code": 51, "high": 29, "low": 24, "wind": "东南风 14 km/h", "hum": 94, "note": "有降雨，出门记得带伞🌂", "forecast": [{"date": "2026-07-14", "code": 95, "cond": "雷阵雨", "high": 29, "low": 24, "pop": 100, "wind": 24}, {"date": "2026-07-15", "code": 3, "cond": "阴", "high": 31, "low": 24, "pop": 6, "wind": 19}, {"date": "2026-07-16", "code": 3, "cond": "阴", "high": 29, "low": 23, "pop": 0, "wind": 13}, {"date": "2026-07-17", "code": 3, "cond": "阴", "high": 26, "low": 22, "pop": 2, "wind": 10}, {"date": "2026-07-18", "code": 3, "cond": "阴", "high": 28, "low": 22, "pop": 2, "wind": 13}, {"date": "2026-07-19", "code": 3, "cond": "阴", "high": 29, "low": 22, "pop": 12, "wind": 7}, {"date": "2026-07-20", "code": 1, "cond": "大致晴朗", "high": 28, "low": 23, "pop": 10, "wind": 11}, {"date": "2026-07-21", "code": 51, "cond": "毛毛雨", "high": 27, "low": 25, "pop": 35, "wind": 18}, {"date": "2026-07-22", "code": 3, "cond": "阴", "high": 27, "low": 24, "pop": 38, "wind": 14}, {"date": "2026-07-23", "code": 3, "cond": "阴", "high": 30, "low": 24, "pop": 53, "wind": 15}, {"date": "2026-07-24", "code": 51, "cond": "毛毛雨", "high": 33, "low": 24, "pop": 33, "wind": 20}, {"date": "2026-07-25", "code": 51, "cond": "毛毛雨", "high": 31, "low": 25, "pop": 27, "wind": 11}, {"date": "2026-07-26", "code": 3, "cond": "阴", "high": 28, "low": 25, "pop": 41, "wind": 16}, {"date": "2026-07-27", "code": 1, "cond": "大致晴朗", "high": 28, "low": 25, "pop": 43, "wind": 19}, {"date": "2026-07-28", "code": 3, "cond": "阴", "high": 28, "low": 24, "pop": 34, "wind": 15}], "is_new": false}, {"city": "本溪", "temp": 25, "cond": "毛毛雨", "code": 51, "high": 27, "low": 21, "wind": "南风 12 km/h", "hum": 96, "note": "有降雨，出门记得带伞🌂", "forecast": [{"date": "2026-07-14", "code": 81, "cond": "阵雨", "high": 27, "low": 21, "pop": 100, "wind": 14}, {"date": "2026-07-15", "code": 51, "cond": "毛毛雨", "high": 30, "low": 20, "pop": 13, "wind": 12}, {"date": "2026-07-16", "code": 2, "cond": "局部多云", "high": 30, "low": 19, "pop": 0, "wind": 9}, {"date": "2026-07-17", "code": 3, "cond": "阴", "high": 32, "low": 18, "pop": 7, "wind": 10}, {"date": "2026-07-18", "code": 53, "cond": "毛毛雨", "high": 32, "low": 20, "pop": 8, "wind": 7}, {"date": "2026-07-19", "code": 53, "cond": "毛毛雨", "high": 31, "low": 20, "pop": 37, "wind": 7}, {"date": "2026-07-20", "code": 51, "cond": "毛毛雨", "high": 30, "low": 21, "pop": 35, "wind": 6}, {"date": "2026-07-21", "code": 2, "cond": "局部多云", "high": 30, "low": 22, "pop": 46, "wind": 11}, {"date": "2026-07-22", "code": 51, "cond": "毛毛雨", "high": 29, "low": 22, "pop": 72, "wind": 11}, {"date": "2026-07-23", "code": 51, "cond": "毛毛雨", "high": 30, "low": 22, "pop": 64, "wind": 8}, {"date": "2026-07-24", "code": 95, "cond": "雷阵雨", "high": 26, "low": 23, "pop": 54, "wind": 16}, {"date": "2026-07-25", "code": 51, "cond": "毛毛雨", "high": 30, "low": 23, "pop": 63, "wind": 9}, {"date": "2026-07-26", "code": 51, "cond": "毛毛雨", "high": 29, "low": 22, "pop": 52, "wind": 6}, {"date": "2026-07-27", "code": 51, "cond": "毛毛雨", "high": 31, "low": 23, "pop": 65, "wind": 5}, {"date": "2026-07-28", "code": 2, "cond": "局部多云", "high": 31, "low": 23, "pop": 75, "wind": 9}], "is_new": false}, {"city": "德州", "temp": 33, "cond": "晴", "code": 0, "high": 36, "low": 26, "wind": "北风 14 km/h", "hum": 53, "note": "天气晴好，注意防晒☀️；高温天气，注意防暑🔥", "forecast": [{"date": "2026-07-14", "code": 51, "cond": "毛毛雨", "high": 36, "low": 26, "pop": 2, "wind": 16}, {"date": "2026-07-15", "code": 63, "cond": "中雨", "high": 33, "low": 26, "pop": 66, "wind": 14}, {"date": "2026-07-16", "code": 51, "cond": "毛毛雨", "high": 31, "low": 25, "pop": 7, "wind": 7}, {"date": "2026-07-17", "code": 61, "cond": "小雨", "high": 28, "low": 22, "pop": 21, "wind": 15}, {"date": "2026-07-18", "code": 51, "cond": "毛毛雨", "high": 31, "low": 21, "pop": 6, "wind": 10}, {"date": "2026-07-19", "code": 51, "cond": "毛毛雨", "high": 32, "low": 23, "pop": 15, "wind": 11}, {"date": "2026-07-20", "code": 96, "cond": "雷阵雨伴冰雹", "high": 31, "low": 24, "pop": 37, "wind": 22}, {"date": "2026-07-21", "code": 96, "cond": "雷阵雨伴冰雹", "high": 30, "low": 22, "pop": 48, "wind": 20}, {"date": "2026-07-22", "code": 96, "cond": "雷阵雨伴冰雹", "high": 29, "low": 22, "pop": 45, "wind": 20}, {"date": "2026-07-23", "code": 2, "cond": "局部多云", "high": 33, "low": 24, "pop": 29, "wind": 11}, {"date": "2026-07-24", "code": 3, "cond": "阴", "high": 34, "low": 28, "pop": 29, "wind": 18}, {"date": "2026-07-25", "code": 51, "cond": "毛毛雨", "high": 30, "low": 26, "pop": 33, "wind": 15}, {"date": "2026-07-26", "code": 51, "cond": "毛毛雨", "high": 30, "low": 25, "pop": 43, "wind": 15}, {"date": "2026-07-27", "code": 51, "cond": "毛毛雨", "high": 33, "low": 26, "pop": 45, "wind": 8}, {"date": "2026-07-28", "code": 95, "cond": "雷阵雨", "high": 33, "low": 26, "pop": 35, "wind": 10}], "is_new": false}], "weather": true}, {"label": "知乎热榜", "items": [{"title": "浙江一住户为防台风用「米」字胶带加固窗户，却成为全楼唯一一户碎玻璃的，为啥会这样？「米」字封窗有用吗？", "date": "2026-07-14", "src": "知乎热榜", "url": "https://www.zhihu.com/question/2060049184527480687", "sum": "🔥 热度 1322.0w+　知乎热榜实时排行", "live": true, "is_new": false}, {"title": "《南海仲裁案裁决新批驳》报告发布，释放哪些信号？", "date": "2026-07-14", "src": "知乎热榜", "url": "https://www.zhihu.com/question/2059980453814219344", "sum": "🔥 热度 676.0w+　知乎热榜实时排行", "live": true, "is_new": false}, {"title": "网传大连理工某学院领导连续两年卧底招生群，挑拨南开和天大的关系，真的吗？这种「招生小动作」普遍吗？", "date": "2026-07-14", "src": "知乎热榜", "url": "https://www.zhihu.com/question/2059729316993131464", "sum": "🔥 热度 260.0w+　知乎热榜实时排行", "live": true, "is_new": false}, {"title": "调查显示近千只瘫痪小猫超 65% 食用同一品牌猫粮，真是猫粮问题吗？猫粮中哪些成分可能导致这一问题？", "date": "2026-07-14", "src": "知乎热榜", "url": "https://www.zhihu.com/question/2058174380128130240", "sum": "🔥 热度 216.0w+　知乎热榜实时排行", "live": true, "is_new": false}, {"title": "网传 ICM 2026 菲尔兹奖名单在网页前端泄露，王虹、邓煜在获奖者讲座名单中，如何看待这一信息？", "date": "2026-07-14", "src": "知乎热榜", "url": "https://www.zhihu.com/question/2060133066643879544", "sum": "🔥 热度 213.0w+　知乎热榜实时排行", "live": true, "is_new": false}, {"title": "苹果开始测试中国企业长鑫存储内存芯片，背后有哪些战略考量？此举将带来哪些产业影响？", "date": "2026-07-14", "src": "知乎热榜", "url": "https://www.zhihu.com/question/2058578162674397208", "sum": "🔥 热度 209.0w+　知乎热榜实时排行", "live": true, "is_new": false}, {"title": "如何看待「松弛派对」走红后被网友吐槽「紧绷的松弛」？为啥大家从追捧松弛感到如今厌恶假松弛？", "date": "2026-07-14", "src": "知乎热榜", "url": "https://www.zhihu.com/question/2057860179513668617", "sum": "🔥 热度 200.0w+　知乎热榜实时排行", "live": true, "is_new": false}, {"title": "如何看待巴西网友被阿根廷战绩打破防，巴西如今的足球水平被阿根廷拉开档次差距了吗？", "date": "2026-07-14", "src": "知乎热榜", "url": "https://www.zhihu.com/question/2060031374115829185", "sum": "🔥 热度 186.0w+　知乎热榜实时排行", "live": true, "is_new": false}, {"title": "特朗普称美国将恢复「针对伊朗的封锁」，如何解读美伊此轮博弈？将如何影响中东局势和全球能源市场？", "date": "2026-07-14", "src": "知乎热榜", "url": "https://www.zhihu.com/question/2060130032056366712", "sum": "🔥 热度 184.0w+　知乎热榜实时排行", "live": true, "is_new": false}, {"title": "周星驰为什么要在这个时候拍这么一部《功夫女足》？", "date": "2026-07-14", "src": "知乎热榜", "url": "https://www.zhihu.com/question/2059433390227583285", "sum": "🔥 热度 180.0w+　知乎热榜实时排行", "live": true, "is_new": false}], "weather": false}, {"label": "AI要闻", "items": [{"title": "36氪首发 | 前博世自动驾驶算法工程师创业，用合成数据做触觉大模型", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/p/3894821059918855?f=rss", "sum": "触觉手套（图源/企业）\n  \n   本文约2400字，建议阅读6分钟\n  \n  作者丨欧雪\n  编辑丨袁斯来\n  硬氪获悉，空间智能公司「大衍科技」近期完成数千万元天使轮融资，由松禾资本领投，浙江省省金控与广州番禺创新基金等国资背景机构参与。资金将主要用于触觉大模型研发、机器人数据产线建设及团队扩张", "live": true, "is_new": true}, {"title": "人形机器人公司逐际动力完成2亿美元Pre-IPO轮融资，投后估值达150亿元｜最前线", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/p/3893976502287618?f=rss", "sum": "作者｜黄楠\n  编辑｜袁斯来\n  硬氪获悉，通用人形机器人公司逐际动力LimX Dynamics宣布完成Pre-IPO轮融资，融资金额近2亿美元，投资方包括IDG资本、蓝思科技、GGG Group与Redstone VC、华山资本、合肥滨湖产发集团等。此外，阿联酋磊石资本（Stone Venture", "live": true, "is_new": true}, {"title": "8点1氪丨海南将成中国首个禁售燃油车省份；长鑫科技部分员工入股成本低至1毛；SK海力士暴跌15%", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/p/3894729787767810?f=rss", "sum": "今日热点导览\n  \n   韩国法院禁止两名前三星员工就职于SK海力士\n   字节探索自动驾驶，Seed世界模型团队负责\n   巨力索具深夜澄清商业航天业务不实传闻，提醒投资风险\n   科技记者古尔曼：苹果将跳过M6 Pro/Max芯片全力押注AI导向的M7系列\n   美众议院本周将表决永久实行夏令时", "live": true, "is_new": true}, {"title": "软银集团推出基于OpenAI技术的网络安全服务", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894908810771460?f=rss", "sum": "7月14日，软银集团与SB OAI Japan正式推出基于OpenAI技术的网络安全服务“Patching as a Service”，该服务已扩展至3000家企业。（新浪财经）", "live": true, "is_new": true}, {"title": "启境汽车增资至30.2亿，增幅约44%", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894888469150725?f=rss", "sum": "36氪获悉，天眼查App显示，近日，启境汽车关联公司启境智能汽车科技（广州）有限公司发生工商变更，新增泓途一号企业管理（广州）合伙企业（有限合伙）、嘉兴博原亿成股权投资合伙企业（有限合伙）等为股东。同时，注册资本由21亿人民币增至约30.2亿人民币，增幅约44%。该公司成立于2025年3月，法定代表", "live": true, "is_new": true}, {"title": "上半年我国专用装备、船舶和海洋工程装备出口5402.4亿元和2149.9亿元", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894883453418499?f=rss", "sum": "海关总署副署长王军在国新办新闻发布会上表示，上半年，我国专用装备、船舶和海洋工程装备出口5402.4亿元和2149.9亿元，分别增长24.4%和19.9%。从智能挖掘机到重型燃气轮机，再到海上作业平台，一批批中国装备在各国重大项目中发挥关键作用。“中国制造”为不同国家地区、不同应用场景提供了优选方案", "live": true, "is_new": true}, {"title": "海关总署：中国出口连续11季度保持增长，贸易增量集中于AI领域", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894871537449989?f=rss", "sum": "7月14日，海关总署副署长王军在国新办新闻发布会上表示，截至目前，中国出口已经连续11个季度保持增长，出口增长根本原因在于中国制造与全球各类需求的精准适配。联合国报告显示，今年以来，全球货物贸易增长主要集中于人工智能相关领域。王军指出，全球算力数据中心及终端设备需求持续扩张，促进了我国相关产品出口；", "live": true, "is_new": true}, {"title": "T3出行在嘉兴成立新公司，注册资本500万", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894866981256457?f=rss", "sum": "36氪获悉，天眼查App显示，近日，嘉兴领行卓智科技有限公司成立，法定代表人为徐杨，注册资本500万人民币，经营范围包括物联网技术服务、人工智能应用软件开发、人工智能硬件销售等。股东信息显示，该公司由T3出行旗下南京领行汽车服务有限公司全资持股。", "live": true, "is_new": true}, {"title": "海关总署：上半年算力硬件进出口增长56.6%", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894861205044488?f=rss", "sum": "7月14日，海关总署副署长王军在国新办新闻发布会上表示，随着人工智能的快速发展，我国相关产品进出口动力强劲。上半年，我国电子元件、电脑零部件等算力硬件进出口额度达到5.13万亿元，增长56.6%；眼镜、翻译器、机械外骨骼等智能产品快速迭代，各类创新产品不断涌现。（证券时报）", "live": true, "is_new": true}, {"title": "“大衍科技”完成数千万元天使轮融资", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894858386324738?f=rss", "sum": "36氪获悉，空间智能公司“大衍科技”近期完成数千万元天使轮融资，由松禾资本领投，浙江省省金控与广州番禺创新基金等国资背景机构参与。资金将主要用于触觉大模型研发、机器人数据产线建设及团队扩张。", "live": true, "is_new": true}, {"title": "企业AI落地降本增效，数智联一站式整机让团队效率翻倍", "date": "7月14日", "src": "Bing新闻", "url": "https://www.msn.cn/zh-cn/技术/人工智能/企业ai落地降本增效-数智联一站式整机让团队效率翻倍/ar-AA27QLre", "sum": "很多企业主都在寻找“实力强的企业Ai落地降本增效公司”或“口碑不错的企业Ai落地降本增效服务商”，但市面上真正能把AI用起来的方案依然稀缺。调研显示 ...", "live": true, "is_new": true}, {"title": "我国自研AI芯片亮相：软件定义结合三维近存计算，突破高端算力瓶颈", "date": "7月14日", "src": "Bing新闻", "url": "https://www.sohu.com/a/1049964703_362225", "sum": "我国在高端算力芯片领域取得重大突破，一款采用创新架构的AI芯片近日在上海正式发布。该芯片突破传统技术路径依赖，通过底层架构革新实现了高性能与供应链安全的双重突破，标志着我国在人工智能算力底座建设上迈出关键一步。 这款芯片采用14纳米制程工艺，却实现了每秒520万亿次浮点运算的惊人算力。其核心突破在于", "live": true, "is_new": true}], "weather": false}, {"label": "企业动态", "items": [{"title": "36氪首发 | 前博世自动驾驶算法工程师创业，用合成数据做触觉大模型", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/p/3894821059918855?f=rss", "sum": "触觉手套（图源/企业）\n  \n   本文约2400字，建议阅读6分钟\n  \n  作者丨欧雪\n  编辑丨袁斯来\n  硬氪获悉，空间智能公司「大衍科技」近期完成数千万元天使轮融资，由松禾资本领投，浙江省省金控与广州番禺创新基金等国资背景机构参与。资金将主要用于触觉大模型研发、机器人数据产线建设及团队扩张", "live": true, "is_new": true}, {"title": "人形机器人公司逐际动力完成2亿美元Pre-IPO轮融资，投后估值达150亿元｜最前线", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/p/3893976502287618?f=rss", "sum": "作者｜黄楠\n  编辑｜袁斯来\n  硬氪获悉，通用人形机器人公司逐际动力LimX Dynamics宣布完成Pre-IPO轮融资，融资金额近2亿美元，投资方包括IDG资本、蓝思科技、GGG Group与Redstone VC、华山资本、合肥滨湖产发集团等。此外，阿联酋磊石资本（Stone Venture", "live": true, "is_new": true}, {"title": "软银集团推出基于OpenAI技术的网络安全服务", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894908810771460?f=rss", "sum": "7月14日，软银集团与SB OAI Japan正式推出基于OpenAI技术的网络安全服务“Patching as a Service”，该服务已扩展至3000家企业。（新浪财经）", "live": true, "is_new": true}, {"title": "小米景明在绵阳成立新科技公司，注册资本100万", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894904700828672?f=rss", "sum": "36氪获悉，天眼查App显示，近日，绵阳小米景明科技有限公司成立，法定代表人为樊家麟，注册资本100万人民币，经营范围含汽车销售、新能源汽车整车销售、新能源汽车换电设施销售、电动汽车充电基础设施运营、充电桩销售等。股东信息显示，该公司由小米景明科技有限公司全资持股。", "live": true, "is_new": true}, {"title": "启境汽车增资至30.2亿，增幅约44%", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894888469150725?f=rss", "sum": "36氪获悉，天眼查App显示，近日，启境汽车关联公司启境智能汽车科技（广州）有限公司发生工商变更，新增泓途一号企业管理（广州）合伙企业（有限合伙）、嘉兴博原亿成股权投资合伙企业（有限合伙）等为股东。同时，注册资本由21亿人民币增至约30.2亿人民币，增幅约44%。该公司成立于2025年3月，法定代表", "live": true, "is_new": true}, {"title": "金山云在武汉成立数智科技公司，注册资本1000万", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894879658999048?f=rss", "sum": "36氪获悉，天眼查App显示，近日，武汉汉擎数智科技有限公司成立，法定代表人为吕沛杰，注册资本1000万人民币，经营范围包括互联网数据服务、计算机系统服务、软件开发、云计算设备销售等。股东信息显示，该公司由凌穹瞬联（庆阳）数据科技有限公司全资持股，后者由北京金山云网络技术有限公司全资持股。", "live": true, "is_new": true}], "weather": false}, {"label": "国家经济（中国经济）", "items": [{"title": "海关总署：上半年中美货物贸易总值2万亿元", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894910317444098?f=rss", "sum": "国务院新闻办公室今天（14日）举行发布会，介绍今年以来我国外贸运行情况。发布会上，海关总署新闻发言人介绍，据中国海关统计，上半年中美货物贸易总值2万亿元，占我国外贸总值的7.9%，其中一季度下降18.7%，二季度增长13.7%。（央视新闻）", "live": true, "is_new": true}, {"title": "韩国将2026年经济增长率预期从此前的2%上调至3%", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894892282444809?f=rss", "sum": "韩国将2026年经济增长率预期从此前的2%上调至3%；预测2026年通胀率为2.6%，较此前预测的2.1%上调。（财联社）", "live": true, "is_new": true}, {"title": "上半年我国体育用品及设备出口675.3亿元", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894887747992583?f=rss", "sum": "国务院新闻办公室今天（14日）举行发布会，介绍今年以来我国外贸运行情况并回答记者提问。世界杯是当前全球瞩目的体育赛事，给广大球迷带来精彩观赛体验的同时，也掀起了全球对各类体育用品的消费热情。近年来，中国一直保持全球最大体育用品出口国地位，占全球出口比重超4成。上半年，我国体育用品及设备出口675.3", "live": true, "is_new": true}, {"title": "上半年我国专用装备、船舶和海洋工程装备出口5402.4亿元和2149.9亿元", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894883453418499?f=rss", "sum": "海关总署副署长王军在国新办新闻发布会上表示，上半年，我国专用装备、船舶和海洋工程装备出口5402.4亿元和2149.9亿元，分别增长24.4%和19.9%。从智能挖掘机到重型燃气轮机，再到海上作业平台，一批批中国装备在各国重大项目中发挥关键作用。“中国制造”为不同国家地区、不同应用场景提供了优选方案", "live": true, "is_new": true}, {"title": "海关总署：中国出口连续11季度保持增长，贸易增量集中于AI领域", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894871537449989?f=rss", "sum": "7月14日，海关总署副署长王军在国新办新闻发布会上表示，截至目前，中国出口已经连续11个季度保持增长，出口增长根本原因在于中国制造与全球各类需求的精准适配。联合国报告显示，今年以来，全球货物贸易增长主要集中于人工智能相关领域。王军指出，全球算力数据中心及终端设备需求持续扩张，促进了我国相关产品出口；", "live": true, "is_new": true}], "weather": false}, {"label": "世界经济（全球经济）", "items": [{"title": "8点1氪丨海南将成中国首个禁售燃油车省份；长鑫科技部分员工入股成本低至1毛；SK海力士暴跌15%", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/p/3894729787767810?f=rss", "sum": "今日热点导览\n  \n   韩国法院禁止两名前三星员工就职于SK海力士\n   字节探索自动驾驶，Seed世界模型团队负责\n   巨力索具深夜澄清商业航天业务不实传闻，提醒投资风险\n   科技记者古尔曼：苹果将跳过M6 Pro/Max芯片全力押注AI导向的M7系列\n   美众议院本周将表决永久实行夏令时", "live": true, "is_new": true}, {"title": "韩国交易所启动SIDECAR机制，暂停KOSDAQ程序化卖盘", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894912567802884?f=rss", "sum": "36氪获悉，韩国交易所启动SIDECAR机制，暂停KOSDAQ程序化卖盘。", "live": true, "is_new": true}, {"title": "海关总署：上半年中美货物贸易总值2万亿元", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894910317444098?f=rss", "sum": "国务院新闻办公室今天（14日）举行发布会，介绍今年以来我国外贸运行情况。发布会上，海关总署新闻发言人介绍，据中国海关统计，上半年中美货物贸易总值2万亿元，占我国外贸总值的7.9%，其中一季度下降18.7%，二季度增长13.7%。（央视新闻）", "live": true, "is_new": true}, {"title": "韩国将2026年经济增长率预期从此前的2%上调至3%", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894892282444809?f=rss", "sum": "韩国将2026年经济增长率预期从此前的2%上调至3%；预测2026年通胀率为2.6%，较此前预测的2.1%上调。（财联社）", "live": true, "is_new": true}, {"title": "韩国拟大举放松资本交易外汇规定", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894891516443905?f=rss", "sum": "韩国拟大举放松资本交易外汇规定，将强化应对韩元波动的24小时反应机制。（财联社）", "live": true, "is_new": true}], "weather": false}, {"label": "宏观经济与政策", "items": [{"title": "海关总署：上半年中美货物贸易总值2万亿元", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894910317444098?f=rss", "sum": "国务院新闻办公室今天（14日）举行发布会，介绍今年以来我国外贸运行情况。发布会上，海关总署新闻发言人介绍，据中国海关统计，上半年中美货物贸易总值2万亿元，占我国外贸总值的7.9%，其中一季度下降18.7%，二季度增长13.7%。（央视新闻）", "live": true, "is_new": true}, {"title": "上半年我国体育用品及设备出口675.3亿元", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894887747992583?f=rss", "sum": "国务院新闻办公室今天（14日）举行发布会，介绍今年以来我国外贸运行情况并回答记者提问。世界杯是当前全球瞩目的体育赛事，给广大球迷带来精彩观赛体验的同时，也掀起了全球对各类体育用品的消费热情。近年来，中国一直保持全球最大体育用品出口国地位，占全球出口比重超4成。上半年，我国体育用品及设备出口675.3", "live": true, "is_new": true}, {"title": "今年上半年我国货物贸易进出口同比增长16.9%", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894845564353801?f=rss", "sum": "国务院新闻办公室今天举行发布会，海关总署相关负责人介绍了今年以来我国外贸运行情况并回答记者提问，同时公布了上半年外贸数据，我国货物贸易进出口同比增长16.9%，外���保持良好运营态势。据海关统计，今年上半年，我国货物贸易进出口25.47万亿元，同比增长16.9%，其中，出口14.73万亿元，增长1", "live": true, "is_new": true}, {"title": "越南新政激活屋顶光伏市场 工业区跨国企业争相“绿化”", "date": "7月14日", "src": "Bing新闻", "url": "https://www.zaobao.com.sg/news/sea/story20260713-9358019", "sum": "（河内综合讯）越南政府近期出台新政优化可再生能源监管框架后，一度陷入停滞的越南屋顶光伏市场迎来强劲的复苏势头。 据《越南新闻》报道，最新法规将“自发自用”屋顶光伏系统可卖回给国家电网的过剩电力比率上限大幅提升一倍，从先前的20%调高至高达50%。此举显著缩短了企业投资的资金回本期，令众多工业区内的跨", "live": true, "is_new": true}, {"title": "氪星晚报 ｜Meta宣布将追加400亿美元投资路易斯安那州数据中心；字节探索自动驾驶，Seed世界模型团队负责；《扩大消费“十五五”规划》：优化入境消费环境，稳步扩大免签国家范围", "date": "7月13日", "src": "36氪", "url": "https://36kr.com/p/3893943402707460?f=rss", "sum": "大公司：\n  洽洽食品：上半年净利润同比预增170.75%—198.96%\n  36氪获悉，洽洽食品披露业绩预告，预计2026年上半年归属于上市公司股东的净利润为2.4亿元—2.65亿元，同比增长170.75%—198.96%。\n  好上好：上半年净利润同比预增301.65%—376.03%\n  3", "live": true, "is_new": false}], "weather": false}, {"label": "货币金融与央行", "items": [{"title": "韩国央行力挺芯片超级周期 SK海力士为何反遭抛售？", "date": "7月14日", "src": "Bing新闻", "url": "https://finance.sina.com.cn/roll/2026-07-14/doc-inihtmeq5368526.shtml", "sum": "韩国央行下场唱多芯片超级周期，却未能阻止韩国“存储双雄”股价下跌。 7月13日，韩国央行发布报告称，全球半导体市场仍供不应求，预计当前由人工智能驱动的超级周期还将持续一段时间，试图打消投资者对芯片周期已见顶的担忧。 韩国央行在报告中表示，AI基础设施投资大幅推高了半导体需求，但供应扩张步伐依然缓慢，", "live": true, "is_new": true}, {"title": "美联储纪要划定利率政策边界，7月加息概率约40%，通胀成关键胜负手", "date": "7月13日", "src": "Bing新闻", "url": "https://news.fx678.com/202607131350551716.shtml", "sum": "汇通财经讯——美联储FOMC会议纪要落地，虽篇幅精简但核心内容未减。纪要划定两大利率政策情景，通胀改善则维持利率或降息，通胀粘性且就业稳定则适度加息。市场预判7月加息概率 40%，官员观点近乎对半分，后续政策将完全依托通胀等经济数据而定。 汇通财经APP讯——上周公布的美联储FOMC会议纪要清晰划定", "live": true, "is_new": false}, {"title": "IMF下调今年全球经济增长预期，上调中国增长预期", "date": "7月11日", "src": "Bing新闻", "url": "https://finance.ifeng.com/c/8ugFQQkQ6j5", "sum": "国际货币基金组织（IMF）8日发布《世界经济展望报告》更新内容，小幅下调今年世界经济增长预期，同时上调中国经济增长预期至4.6%。 IMF预计，2026年世界经济将增长3%，比4月预测值低0.1个百分点。这是IMF继今年4月下调0.2个百分点后，再次下调今年世界经济增长预期。IMF表示，此次下调反映", "live": true, "is_new": false}, {"title": "湖北科技企业“资本赋能与合规新机遇”交流会顺利举办，助力企业破解上市难题", "date": "7月11日", "src": "Bing新闻", "url": "https://finance.ifeng.com/c/8ufrCKJE18I", "sum": "7月10日下午，“科技企业资本赋能与合规新机遇”交流会在华中小龟山金融文化公园举办。在湖北省上市工作指导中心的指导下，本次会议由湖北省企业上市发展促进会、上海市锦天城律师事务所联合举办，聚焦资本市场新动态，为企业搭建法律、资本与科技的对接平台，助力湖北科技企业破解上市难题、加速登陆资本市场。来自湖北", "live": true, "is_new": false}], "weather": false}, {"label": "统计·数据·发布", "items": [{"title": "36氪首发 | 前博世自动驾驶算法工程师创业，用合成数据做触觉大模型", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/p/3894821059918855?f=rss", "sum": "触觉手套（图源/企业）\n  \n   本文约2400字，建议阅读6分钟\n  \n  作者丨欧雪\n  编辑丨袁斯来\n  硬氪获悉，空间智能公司「大衍科技」近期完成数千万元天使轮融资，由松禾资本领投，浙江省省金控与广州番禺创新基金等国资背景机构参与。资金将主要用于触觉大模型研发、机器人数据产线建设及团队扩张", "live": true, "is_new": true}, {"title": "海关总署：上半年中美货物贸易总值2万亿元", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894910317444098?f=rss", "sum": "国务院新闻办公室今天（14日）举行发布会，介绍今年以来我国外贸运行情况。发布会上，海关总署新闻发言人介绍，据中国海关统计，上半年中美货物贸易总值2万亿元，占我国外贸总值的7.9%，其中一季度下降18.7%，二季度增长13.7%。（央视新闻）", "live": true, "is_new": true}, {"title": "海关总署：中国6月稀土出口5104.8吨", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894894048509184?f=rss", "sum": "36氪获悉，海关总署公布的数据显示，中国6月稀土出口5104.8吨，1-6月稀土出口30482.8吨。", "live": true, "is_new": true}, {"title": "海关总署：中国6月出口（以美元计价）同比增27%", "date": "7月14日", "src": "36氪", "url": "https://36kr.com/newsflashes/3894884368055301?f=rss", "sum": "36氪获悉，海关总署公布数据显示，中国6月出口（以美元计价）同比增27%；进口同比增36%。", "live": true, "is_new": true}], "weather": false}, {"label": "高校·教育·学术", "items": [{"title": "教育部部署2026年中小学、幼儿园暑期安全工作", "date": "7月2日", "src": "教育部/环球网", "url": "https://news.qq.com/rain/a/20260703A0979H00", "sum": "教育部印发通知，强调保障师生休假权益，严防安全事件，确保平安度假。", "is_new": false}, {"title": "湖南省2026年普通高校招生录取工作正式启动", "date": "7月8日", "src": "湖南日报/凤凰网", "url": "https://hunan.ifeng.com/c/8ucc04w7DHk", "sum": "严格执行十严禁、30个不得及不点录不补录等规定，维护招生公平。", "is_new": false}, {"title": "2026年暑期高校学生资助热线7月1日开通", "date": "7月1日", "src": "光明网", "url": "https://life.gmw.cn/2026-07/02/content_38863718.htm", "sum": "教育部为家庭经济困难新生提供政策咨询，提醒警惕校园贷与招生诈骗。", "is_new": false}, {"title": "海南省2026年高校招生集中录取7月9日开始", "date": "7月6日", "src": "新华网海南", "url": "http://www.hq.xinhuanet.com/20260706/bdbee03c86864aeda00f8e309dc10421/c.html", "sum": "全国1520余所高校在琼投放计划，集中录取预计8月15日完成。", "is_new": false}, {"title": "网络文明建设与互联网文化发展学术研讨会在北大举行", "date": "7月9日", "src": "中国网", "url": "https://business.china.com.cn/2026-07/09/content_43459370.shtml", "sum": "北大现代文化研究中心主办，围绕互联网文化治理、AI应用、传统文化数字化展开研讨。", "is_new": false}], "weather": false}, {"label": "国际经贸与产业", "items": [{"title": "中欧贸易投资磋商机制首次会议在布鲁塞尔举行", "date": "7月2日", "src": "商务部", "url": "https://www.mofcom.gov.cn/xwfbzt/2026/swbzklxxwfbh2026n7y2r/index.html", "sum": "磋商机制下设四大板块，中欧发表联合声明坚定维护多边贸易体制。", "is_new": false}, {"title": "欧盟取消150欧元以下小包免税，美国301关税加码", "date": "7月1日", "src": "搜狐财经", "url": "https://www.sohu.com/a/1044839694_122844833", "sum": "7月起欧盟取消低值包裹免税，美欧海运运价上行，传统直邮成本优势消退。", "is_new": false}, {"title": "商务部回应美国农产品关税：原则同意纳入对等降税框架", "date": "7月2日", "src": "新浪财经", "url": "https://city.sina.com.cn/city_finance/2026-07-03/detail-inifnnxn0556057.shtml", "sum": "中美设定扩大农产品双向贸易指导性目标，企业按市场化原则自主开展贸易。", "is_new": false}, {"title": "2026年7月全球贸易、海关与关税新规指南", "date": "7月", "src": "AB客/外贸合规", "url": "https://www.cnabke.com/blogs/2026-july-global-trade-compliance-guide.html", "sum": "梳理欧美中亚太7月生效的贸易、海关与关税新规，协助外贸合规自查。", "is_new": false}, {"title": "欧盟ESPR环保法规7月19日生效，禁销毁未售服装", "date": "7月5日", "src": "外贸合规", "url": "https://china-fsgec.fs.cn/html/1/158/160/1553.html", "sum": "年营收5000万欧元以上企业严禁销毁未售服装鞋履，影响对欧出口企业。", "is_new": false}], "weather": false}, {"label": "博士招生与考博动态", "items": [{"title": "2026年高校博士招生政策五大变化解读", "date": "2026年", "src": "搜狐教育", "url": "https://www.sohu.com/a/1017079179_100206663", "sum": "选拔方式、培养模式、奖学金体系与毕业标准改革，全面推进申请-考核等多元选拔。", "is_new": false}, {"title": "北京大学2026年博士招生简章：新增前沿交叉学科专项", "date": "2026年", "src": "百度文库", "url": "https://wenku.baidu.com/view/9db84435413610661ed9ad51f01dc281e53a56e4.html", "sum": "实行分类考核，新设量子信息、脑科学等前沿交叉学科专项，倾斜新兴学科。", "is_new": false}, {"title": "2026年博士研究生招生简章汇总与选校指南", "date": "7月", "src": "考博网", "url": "https://www.xexam8.com/kaobo/kaobo-2026-admission-brochure", "sum": "招生简章公布，含学科、计划、报考条件、考试科目与录取规则等完整信息。", "is_new": false}, {"title": "中国科学院大学2026年博士研究生招生章程发布", "date": "2026年", "src": "国科大研招办", "url": "http://admission.ucas.edu.cn/ShowArticle/Article/047420c8-14ba-442f-b09c-ee3b2f2c29f3/ed407c5b-decf-4c47-8974-99a664b3b545", "sum": "招生分推免直博、硕博连读、普通招考三类，按春/秋入学，各培养单位自主确定比例。", "is_new": false}, {"title": "清华大学2026年博士研究生招生简章（申请-考核制）", "date": "2026年", "src": "清华研招网", "url": "https://yzbm.tsinghua.edu.cn/publish/s03/s0302/detail/053a7602-4d2d-4aee-bde4-13cf9a44846d", "sum": "秋季招生网上申请7月1日—28日开放，实行申请-考核制，覆盖各院系博士招生。", "is_new": false}], "weather": false}, {"label": "毕业与就业形势分析", "items": [{"title": "人社部启动2026年高校毕业生就业服务攻坚行动（7-12月）", "date": "7月2日", "src": "中新网", "url": "https://www.chinanews.com.cn/gn/2026/07-02/10651378.shtml", "sum": "面向离校未就业毕业生，提供实名登记、职业指导、招聘对接等全方位服务。", "is_new": false}, {"title": "2026届毕业生就业形势分析：1270万峰值下的机遇与破局", "date": "7月7日", "src": "新浪", "url": "https://k.sina.cn/article_7879848901_1d5acf3c501901jm2a.html", "sum": "毕业生规模1270万再创新高，叠加产业结构调整，总量压力与结构性矛盾突出。", "is_new": false}, {"title": "青年就业服务攻坚行动启动：“五个清单”精准帮扶", "date": "7月6日", "src": "新浪财经", "url": "https://finance.sina.com.cn/jjxw/2026-07-06/doc-inifuxum8998664.shtml", "sum": "推出就业创业政策、服务项目、机构目录、求助途径、招聘渠道五个清单。", "is_new": false}, {"title": "辽宁启动高校毕业生等青年就业服务“双百日”攻坚行动", "date": "7月3日", "src": "光明网", "url": "https://edu.gmw.cn/2026-07/03/content_38866355.htm", "sum": "抢抓离校求职关键期，7月2日沈阳现场招聘启动，促进毕业生留辽来辽就业。", "is_new": false}], "weather": false}, {"label": "学术论文申报与发表指南", "items": [{"title": "2026国内外期刊投稿避坑指南", "date": "3月22日", "src": "PaperFine", "url": "https://paperfine.cn/knowledge/thesis-guide/2026-journal-submission-guide", "sum": "含期刊匹配、投稿四大致命坑、状态追踪与审稿回复应对技巧。", "is_new": false}, {"title": "2026期刊论文发表指南：6家正规机构测评+核心避坑", "date": "6月4日", "src": "Scholat学者网", "url": "https://www.scholat.com/vpost.html?pid=301298", "sum": "整理6家合规学术服务机构，总结论文发表五大核心注意事项。", "is_new": false}, {"title": "2026版学术投稿全流程指南（国际会议/期刊）", "date": "1月15日", "src": "AC学术平台", "url": "https://www.academicenter.com/knowledge/details/2011685499482886144.html", "sum": "从手稿到发表全流程，含创新性自检、目标期刊匹配、投稿后追踪与修改。", "is_new": false}, {"title": "从零到一：国内外期刊投稿全流程操作指南", "date": "5月8日", "src": "PaperNex", "url": "https://papernex.cn/knowledge/thesis-guide/journals-submission-guide", "sum": "手把手拆解投稿系统操作、流程解析与回复技巧，面向投稿新手。", "is_new": false}], "weather": false}, {"label": "国家社科基金申报信息", "items": [{"title": "2026年国家社科基金年度项目申报公告", "date": "5月6日", "src": "全国哲社办", "url": "https://www.nopss.gov.cn/n1/2026/0506/c431027-40714613.html", "sum": "网络申报5月29日-6月7日开放，登录国家社科基金科研创新服务管理平台填报。", "is_new": false}, {"title": "2026年国家社科基金重大项目选题征集公告", "date": "6月4日", "src": "全国哲社办", "url": "https://www.nopss.gov.cn/n1/2026/0604/c431028-40733947.html", "sum": "重大项目选题征集中，年度项目结项结果与认真负责鉴定专家名单同步发布。", "is_new": false}, {"title": "2026年全国教育科学规划年度项目申报公告", "date": "2026年", "src": "全国哲社办", "url": "https://www.nopss.gov.cn/?key=2026%E5%85%A8%E5%9B%BD%E6%95%99%E8%82%B2%E7%A7%91%E5%AD%A6%E8%A7%84%E5%88%92%E5%B9%B4%E5%BA%A6%E9%A1%B9%E7%9B%AE%E7%94%B3%E6%8A%A5%E5%85%AC%E5%91%8A", "sum": "教育科学规划年度项目与社科基金同步推进，申报系统与流程共用。", "is_new": false}, {"title": "多所高校转发2026年国家社科基金申报通知", "date": "5月8日", "src": "各高校科技处", "url": "https://www.sitsh.edu.cn/2026/0511/c1090a41141/page.htm", "sum": "各高校陆续转发申报通知，强调形式自查、学院初审、纸质材料集中报送节点。", "is_new": false}], "weather": false}, {"label": "高校教师相关政策法规", "items": [{"title": "2026年《教师法》大修：学历门槛提高，职称迎来自然晋升", "date": "3月9日", "src": "搜狐", "url": "https://www.sohu.com/a/994240246_121925082", "sum": "全国人大将教师法修订纳入立法计划，时隔33年大修，聚焦准入、职称、待遇。", "is_new": false}, {"title": "新版《教师法》修订方向：七大改革解构", "date": "3月16日", "src": "腾讯新闻", "url": "https://news.qq.com/rain/a/20260316A071JA00", "sum": "涵盖强队伍、保权益、严规范、减负、待遇法治化、师德师风、基层倾斜。", "is_new": false}, {"title": "2026教师队伍三大变革落地：减负、轮岗、涨待遇", "date": "4月9日", "src": "今日头条", "url": "https://www.toutiao.com/article/7626654082106704425/", "sum": "减负归位、按需流动、待遇法治，三大改革从顶层设计到地方执行形成闭环。", "is_new": false}, {"title": "教育部2026年全国教育工作会议部署：教育家精神落地", "date": "2026年", "src": "教育部", "url": "https://www.moe.gov.cn/jyb_xwfb/xw_zt/moe_357/2026/2026_zt02/", "sum": "第41个教师节来临前部署高素质教师队伍建设，将教育家精神转化为行动自觉。", "is_new": false}], "weather": false}, {"label": "教授/副教授招聘与晋升", "items": [{"title": "清华大学社科学院2026年招聘制度经济学副教授", "date": "7月8日", "src": "高校人才网", "url": "https://m.gaoxiaojob.com/announcement/detail/414235.html", "sum": "面向海内外诚聘教研系列副教授1人，招聘领域为制度经济学。", "is_new": false}, {"title": "工作一年可参评副教授：多所高校招聘新变化", "date": "6月29日", "src": "微信公众平台", "url": "https://mp.weixin.qq.com/s?__biz=MjM5MDAyMzQyMQ==&mid=2650931616&idx=1&sn=7344ce9ab36a6b6d8b60b302cf9e1f86", "sum": "无高级职称但有一年以上工作经历者到校当年即可参评副教授，部分直接聘任。", "is_new": false}, {"title": "2026年度专业技术职务评聘工作启动", "date": "7月1日", "src": "浙江外国语学院人事处", "url": "https://rsc.zisu.edu.cn/info/1062/7545.htm", "sum": "博士后出站人员达条件可直接聘任副教授，为青年人才开辟快速晋升通道。", "is_new": false}, {"title": "2026年教职工聘期考核与岗位等级晋升通知", "date": "7月", "src": "上海大学人事处", "url": "https://ece.shu.edu.cn/info/1147/89144.htm", "sum": "7月启动聘期考核与晋升，含师德师风评议，教职工在线填写考核申请表。", "is_new": false}, {"title": "西北大学部署2026年度高校教师系列职称评聘工作", "date": "6月1日", "src": "西北大学", "url": "https://www.nwu.edu.cn/info/1091/21278.htm", "sum": "明确评审对象与条件，按《教师职务评聘办法》及各单位晋升条件执行。", "is_new": false}], "weather": false}, {"label": "东北财经大学校内新闻", "items": [{"title": "东北财经大学新闻中心：一网汇聚校内时讯与通知公告", "date": "持续", "src": "东北财经大学官网", "url": "https://www.dufe.edu.cn/news/", "sum": "学校新闻中心第一手发布教学科研、学术讲座、招聘信息与校内通知公告。", "is_new": false}, {"title": "东财萨里国际学院院长孟韬做客央视《名校之约》", "date": "6月25日", "src": "央视网", "url": "https://news.cctv.com/2026/06/25/ARTI6ZRJB1fmNfwtYP9wVkb2260625.shtml", "sum": "院长携校友与毕业生代表分享办学特色、人才培养、升学就业等话题。", "is_new": false}, {"title": "校园时讯更新：校内学术讲座与会议动态", "date": "近期", "src": "东北财经大学", "url": "https://www.dufe.edu.cn/news/news/", "sum": "学校持续发布各类学术讲座、学术会议、项目申报等校内通知。", "is_new": false}, {"title": "CMIC 2026中国市场营销国际学术会议在东北财经大学举办", "date": "7月9日", "src": "东北财经大学", "url": "https://www.dufe.edu.cn/content_99990.html", "sum": "7月3—5日以“人工智能时代的营销与管理”为主题，华人学者营销协会与东财共同主办。", "is_new": false}, {"title": "东财公示2026年度辽宁省教育厅高校基本科研项目立项名单", "date": "7月6日", "src": "东财科研处", "url": "https://kyc.dufe.edu.cn/content_99941.html", "sum": "科研处组织2026年度辽宁省教育厅高校基本科研项目申报，立项名单7月6—10日公示。", "is_new": false}], "weather": false}, {"label": "大连本地要闻", "items": [{"title": "第二十二届大连国际沙滩文化节7月5日启幕", "date": "7月5日", "src": "腾讯新闻", "url": "https://news.qq.com/rain/a/20260709A01WS600", "sum": "以「海风赴浪漫，沙滩一起嗨」为主题，呈现自然魅力与人文活力的夏日盛会。", "is_new": false}, {"title": "大连市发布暴雨、强对流蓝色预警", "date": "7月7日", "src": "腾讯新闻", "url": "https://view.inews.qq.com/a/20260708A01OC400", "sum": "气象台预警庄河、长海等地下大到暴雨并伴强对流，市防汛启动四级应急响应。", "is_new": false}, {"title": "大连启动高校毕业生一次性求职补贴申领（2000元）", "date": "7月6日", "src": "腾讯新闻", "url": "https://news.qq.com/rain/a/20260706A0233200", "sum": "大连市启动2026年高校毕业生一次性求职补贴申领，标准2000元，面向困难毕业生。", "is_new": false}, {"title": "2026年大连市政府工作报告全文发布", "date": "1月28日", "src": "辽宁省政府", "url": "https://www.ln.gov.cn/web/zwgkx/zfgzbg/shizfgzbg/dls/2026012814282249798/", "sum": "出台推动经济高质量发展36条与提振消费27条，全面部署2026年全市经济社会发展目标。", "is_new": false}, {"title": "大连市2026年中考成绩7月8日发布，4种渠道查询", "date": "7月9日", "src": "腾讯新闻", "url": "https://news.qq.com/rain/a/20260709A01WS600", "sum": "中考成绩含八年级地理生物考试，市招考办提供短信推送与网络查询等4种方式。", "is_new": false}], "weather": false}, {"label": "北京要闻", "items": [{"title": "报告：北京稳居全球数字经济领跑城市，迈入体系引领新阶段", "date": "7月4日", "src": "中国新闻网", "url": "https://www.chinanews.com/cj/2026/07-04/10652884.shtml", "sum": "2025年北京数字经济增加值突破2.4万亿元，占GDP比重达46.4%，全球标杆城市指数排名第二。", "is_new": false}, {"title": "《北京数字经济发展报告（2025～2026）》成功发布", "date": "7月9日", "src": "中国日报", "url": "https://cn.chinadaily.com.cn/a/202607/09/WS6a4f3a73a310d709c2fbc9d9.html", "sum": "蓝皮书系统梳理北京数字经济发展，增值占GDP近半，稳居全球「领跑城市」行列。", "is_new": false}, {"title": "以「数字」促增长，北京为数字之城定尺立标", "date": "7月5日", "src": "中国新闻网", "url": "https://www.chinanews.com.cn/cj/2026/07-05/10652986.shtml", "sum": "2026全球数字经济大会在京举办，近40个高级别团组围绕AI、数据治理等深入对话。", "is_new": false}, {"title": "2026世界机器人大会8月启幕，产业营收破900亿", "date": "7月7日", "src": "人民网", "url": "https://finance.people.com.cn/n1/2026/0707/c1004-40755020.html", "sum": "1—5月机器人规上企业营收同比增26.9%、近五年年均增速超20%，大会聚焦智能制造前沿。", "is_new": false}], "weather": false}, {"label": "辽宁要闻（重点本溪）", "items": [{"title": "辽宁多地遭遇强降雨，全力筑牢防汛安全堤", "date": "7月7日", "src": "辽宁省政府", "url": "https://www.ln.gov.cn/web/ywdt/zymtkln/2026070908462045077/index.shtml", "sum": "6日全省多地强降雨，最大累积降雨量113.5毫米，各地全力应对防汛险情。", "is_new": false}, {"title": "辽宁将迎两轮强降雨（台风「巴威」外围水汽影响）", "date": "7月10日", "src": "腾讯新闻", "url": "https://news.qq.com/rain/a/20260710A025CJ00", "sum": "10日至14日受台风外围、东北冷涡及副高共同影响，辽宁将出现两次强降雨过程。", "is_new": false}, {"title": "本溪市委副书记何涛拟任副省级城市党委常委", "date": "6月29日", "src": "新浪财经", "url": "https://finance.sina.com.cn/jjxw/2026-06-29/doc-inifauhn5351173.shtml", "sum": "辽宁省委组织部公示：何涛（女）现任本溪市委副书记、政法委书记，拟任副省级城市党委常委。【本溪】", "is_new": false}, {"title": "「红韵本溪·薪火相传」网络主题宣传活动走进抗联史实陈列馆", "date": "7月3日", "src": "腾讯新闻", "url": "https://view.inews.qq.com/a/20260703V0BPKR00", "sum": "红色主题采风走进东北抗联史实陈列馆，沉浸式回望十四年林海鏖战，传承红色薪火。【本溪】", "is_new": false}, {"title": "辽宁上半年入境游消费同比增长41.4%", "date": "7月3日", "src": "辽宁日报", "url": "https://www.sohu.com/a/1045622975_121106822", "sum": "省委常委会部署防汛抗旱；辽宁文旅消费持续回暖。", "is_new": false}], "weather": false}, {"label": "山东要闻（重点德州）", "items": [{"title": "习近平总书记在山东德州考察纪实", "date": "6月24日", "src": "求是网", "url": "https://www.qstheory.cn/20260624/916c6b7a1ff4404a94472049ef95b11b/c.html", "sum": "总书记赴德州市陵城区东于架村，深入田间了解小麦收成、玉米种植与农资供应。【德州】", "is_new": false}, {"title": "2026，德州聚焦八个方面精准发力", "date": "1月28日", "src": "山东省政府", "url": "http://www.shandong.gov.cn/art/2026/1/28/art_116200_702736.html", "sum": "深化绿色「吨半粮」建设、新增高标准农田40万亩，壮大乡村富民产业。【德州】", "is_new": false}, {"title": "山东推动虚拟电厂规范高效有序发展", "date": "7月8日", "src": "新华网山东", "url": "http://www.sd.xinhuanet.com/20260708/657f45ab5330402e9cb661a591f9f283/c.html", "sum": "《山东省虚拟电厂建设运行管理办法》出台，优化职责分工、能力测试与市场交易。", "is_new": false}, {"title": "山东2026高考录取结果查询方式和时间公布", "date": "7月9日", "src": "山东宣传网", "url": "https://www.sdxc.gov.cn/jryw/snzdxw/202607/t20260709_17914931.htm", "sum": "省教育招生考试院公布录取查询渠道与各批次结果公布时间。", "is_new": false}, {"title": "德州与华能山东发电签署合作协议，推进能源项目", "date": "近期", "src": "德州市政府", "url": "https://www.dezhou.gov.cn/index.html", "sum": "我市与华能山东发电有限公司签署合作协议，深化绿色低碳能源布局。【德州】", "is_new": false}], "weather": false}, {"label": "链长制", "items": [{"title": "南昌市重点产业链链长制工作推进会召开", "date": "4月18日", "src": "南昌日报", "url": "https://3g.cjn.cn/Detail?id=5358415", "sum": "建立“总链长+链长+链主+链长办”体系，实施“六个一”机制推动上下游协同。", "is_new": false}, {"title": "邹城市“链长制”工作推进会议召开", "date": "4月2日", "src": "邹城市政府", "url": "https://www.jining.gov.cn/art/2026/4/2/art_183_2925211.html", "sum": "将“链长制”作为工业经济头号工程抓手，推动产业链延链补链、提质增效。", "is_new": false}, {"title": "全省商贸物流产业链链长制工作推进会召开（江西）", "date": "4月23日", "src": "江西省商务厅", "url": "https://swt.jiangxi.gov.cn/jxsswt/col/col30290/content/content_2047251244408434688.html", "sum": "部署培优育强、强基固本、数智赋能，审议通过《2026年江西省商贸物流产业链工作要点》。", "is_new": false}, {"title": "祁阳市2026年“总链长制”工作会议", "date": "6月18日", "src": "祁阳新闻网", "url": "https://qy.gov.cn/qy/0400/202606/404f7c8f01e34babb56bad8b1c835262.shtml", "sum": "强调“有图谱、有章法、有成果”，精准破解发展瓶颈、推动项目落地投产。", "is_new": false}, {"title": "江西深化“1269”行动计划 加快产业集群提能升级", "date": "1月15日", "src": "江西省政府", "url": "https://www.toutiao.com/article/7595483035954086452/", "sum": "发挥产业链链长制作用，推动人才、资金、技术、数据向关键环节集聚。", "is_new": false}], "weather": false}, {"label": "供应链", "items": [{"title": "国务院公布《关于产业链供应链安全的规定》", "date": "4月8日", "src": "人民网", "url": "https://politics.people.com.cn/n1/2026/0408/c1001-40696782.html", "sum": "国务院常务会议通过，自公布施行，防范产业链供应链安全风险、提升韧性。", "is_new": false}, {"title": "司法部就《产业链供应链安全的规定》答记者问", "date": "4月", "src": "中国政府网", "url": "https://big5.www.gov.cn/gate/big5/www.gov.cn/zhengce/202604/content_7064912.htm", "sum": "填补产业链供应链安全专门立法空白，明确关键领域清单与安全调查、反制措施。", "is_new": false}, {"title": "求是网：如何提升产业链供应链韧性和安全水平", "date": "5月22日", "src": "求是网", "url": "https://www.qstheory.cn/20260522/13b85573bc924de2946ad7cacc741004/c.html", "sum": "关键在统筹推进补链、强链、建链，破解“高端上不去、低端留不住”两头承压局面。", "is_new": false}, {"title": "发挥经济大省优势 保障产业链供应链安全", "date": "6月11日", "src": "中国共产党新闻网", "url": "http://qstheory.cn/20260611/82e7f09504dd4822bfe504c1cba5079a/c.html", "sum": "从稳链强链、科技攻坚、深层次改革、高水平开放四维协同，以安全保发展。", "is_new": false}], "weather": false}, {"label": "产业链", "items": [{"title": "因地制宜发展新质生产力 福建“555X”产业集群", "date": "3月9日", "src": "人民网", "url": "https://fj.people.cn/n2/2026/0309/c181466-41518451.html", "sum": "补齐缺失环节、拓展短链、聚链成群，打造万亿/千亿/百亿级产业集群体系。", "is_new": false}, {"title": "2026年广东、江苏、重庆等地如何推进产业链发展", "date": "近期", "src": "中国物流与采购联合会", "url": "https://www.peopleapp.com/rmharticle/30051425319", "sum": "多地政府工作报告强调产业集群建设、延链补链强链、提升产业链安全可靠水平。", "is_new": false}, {"title": "工信部启动产业链强基强链行动 推“人工智能+制造”", "date": "4月29日", "src": "中国工信新闻网", "url": "https://www.cnii.com.cn/gxxww/cyjs/202604/t20260429_733077.html", "sum": "聚焦重点领域打通技术卡点堵点，配套“人工智能+制造”专项行动实施意见。", "is_new": false}, {"title": "现代化产业体系的理论内涵与实践要求", "date": "3月7日", "src": "人民网/人民日报", "url": "https://theory.people.com.cn/n1/2026/0307/c40531-40676771.html", "sum": "围绕发展新质生产力布局产业链，短板产业补链、优势产业延链、新兴产业建链。", "is_new": false}], "weather": false}, {"label": "企业真实问题", "items": [{"title": "2026中小企业生存状况：五重挤压下的生存挑战", "date": "6月29日", "src": "辽宁中小企业", "url": "https://lnsme.org.cn/lnmo/xygz/2026062912033566155/index.shtml", "sum": "需求极寒、成本高企、融资复杂、转型不足、人才短缺五重挤压，政策红利落地存区域差异。", "is_new": false}, {"title": "中小企业市场现状：现金流平均仅撑不到三个月", "date": "5月20日", "src": "中研普华", "url": "https://m.chinairn.com/hyzx/20260520/164955387.shtml", "sum": "北大调研显示超一成企业已现资金链断裂，利润率跌至极低水平被成本与合规双重绞杀。", "is_new": false}, {"title": "2026中小企业政策环境与痛点拆解：融资难最突出", "date": "5月31日", "src": "中研普华", "url": "https://big5.chinairn.com/hyzx/20260531/142634890.shtml", "sum": "融资从资金短缺演变为结构性错配，账期过长成隐性资金占用，人才结构错配。", "is_new": false}, {"title": "引导中小企业鼓足发展劲头：融资、成本、转型三痛点", "date": "5月12日", "src": "中国经济网", "url": "https://www.ce.cn/xwzx/gnsz/gdxw/202605/t20260512_2958936.shtml", "sum": "从融资堵点、成本压力、转型门槛三层面精准施策，梯度培育优质中小企业。", "is_new": false}], "weather": false}, {"label": "宏观经济大事", "items": [{"title": "2026宏观半年报：K型分化延续，外强内弱", "date": "近期", "src": "网易财经", "url": "https://www.163.com/dy/article/L1GASUG305568W0A.html", "sum": "内需弱复苏、出口一枝独秀，二季度GDP或回落至4.5%，处全年目标区间下沿。", "is_new": false}, {"title": "央行二季度例会释放信号：适度宽松、加强财货协同", "date": "7月10日", "src": "新浪财经", "url": "https://finance.sina.com.cn/money/bank/bank_hydt/2026-07-10/doc-inihhvke3976069.shtml", "sum": "会议首提经贸摩擦冲击，指出国内面临供强需弱、结构分化、外部冲击三重挑战。", "is_new": false}, {"title": "财政与货币政策协同发力 提升宏观治理效能", "date": "近期", "src": "中国经济时报", "url": "https://k.sina.com.cn/article_5953190046_162d6789e06703f8b8.html", "sum": "更加积极的财政+适度宽松货币，把投资于物和投资于人紧密结合。", "is_new": false}, {"title": "2026上半年宏观大事记：国内政策底验证 海外风险交织", "date": "近期", "src": "同花顺", "url": "https://news.10jqka.com.cn/deep-topic/topic/dt_01KWC68KB5BJHEMB073WE8WZF3", "sum": "两会与十五五定调政策底，中东冲突、主要央行偏鹰与日元走弱抬高外部不确定性。", "is_new": false}], "weather": false}, {"label": "小宝收藏", "items": [{"title": "气候行动公正转型工作方案：五大基本原则 | WRI China", "date": "📰 04月27日", "src": "微信收藏", "url": "https://wri.org.cn/", "sum": "📌 wri.org.cn · 点开看最新资讯", "is_new": false}, {"title": "四地案例研究：浅析中国公正转型之路 – 绿色和平", "date": "📰 12月12日", "src": "微信收藏", "url": "https://www.greenpeace.org.cn/", "sum": "📌 www.greenpeace.org.cn · 点开看最新资讯", "is_new": false}, {"title": "关于组织申报2026年国家社会科学基金年度项目的通知 -- 东北财经大学", "date": "📰 更新时间未知", "src": "微信收藏", "url": "https://www.dufe.edu.cn/", "sum": "📌 www.dufe.edu.cn · 点开看最新资讯", "is_new": false}, {"title": "全国碳市场信息网", "date": "📰 更新时间未知", "src": "微信收藏", "url": "https://www.cets.org.cn/", "sum": "📌 www.cets.org.cn · 点开看最新资讯", "is_new": false}, {"title": "习近平系列重要讲话数据库", "date": "📰 更新时间未知", "src": "微信收藏", "url": "https://jhsjk.people.cn/", "sum": "📌 jhsjk.people.cn · 点开看最新资讯", "is_new": false}, {"title": "首页-中国工业经济联合会", "date": "📰 更新时间未知", "src": "微信收藏", "url": "https://www.cfie.org.cn/", "sum": "📌 www.cfie.org.cn · 点开看最新资讯", "is_new": false}, {"title": "中国节能协会碳中和专业委员会", "date": "📰 更新时间未知", "src": "微信收藏", "url": "http://www.ceca-cnc.org.cn/", "sum": "📌 www.ceca-cnc.org.cn · 点开看最新资讯", "is_new": false}, {"title": "中央预决算公开平台", "date": "📰 更新时间未知", "src": "微信收藏", "url": "https://www.mof.gov.cn/", "sum": "📌 www.mof.gov.cn · 点开看最新资讯", "is_new": false}, {"title": "【项目申报】国家社会科学基金后期资助暨优秀博士学位论文出版项目通知", "date": "📰 更新时间未知", "src": "微信收藏", "url": "https://www2.scut.edu.cn/", "sum": "📌 www2.scut.edu.cn · 点开看最新资讯", "is_new": false}, {"title": "绿色转型", "date": "📰 更新时间未知", "src": "微信收藏", "url": "https://www.miit.gov.cn/", "sum": "📌 www.miit.gov.cn · 点开看最新资讯", "is_new": false}, {"title": "碳定价“平衡术”|转型_新浪财经_新浪网", "date": "📰 更新时间未知", "src": "微信收藏", "url": "https://finance.sina.com.cn/", "sum": "📌 finance.sina.com.cn · 点开看最新资讯", "is_new": false}, {"title": "全国碳市场信息网-碳排放权交易", "date": "📰 更新时间未知", "src": "微信收藏", "url": "https://www.cneeex.com/", "sum": "📌 www.cneeex.com · 点开看最新资讯", "is_new": false}], "weather": false}], "sources": [{"cat": "宏观政策", "name": "国务院 / 国家发改委", "url": "https://www.gov.cn/", "desc": "宏观政策、规划纲要与调控风向标"}, {"cat": "统计·数据", "name": "国家统计局 / 国家数据", "url": "https://data.stats.gov.cn/", "desc": "CPI/PPI、投资、GDP等官方数据库"}, {"cat": "货币金融", "name": "中国人民银行", "url": "https://www.pbc.gov.cn/", "desc": "货币政策、利率、人民币汇率中间价"}, {"cat": "国际经贸", "name": "商务部", "url": "https://www.mofcom.gov.cn/", "desc": "外贸、外资、经贸磋商与争端"}, {"cat": "高教政策", "name": "教育部", "url": "https://www.moe.gov.cn/", "desc": "高教政策、招生、资助与学科评估"}, {"cat": "学术前沿", "name": "NBER / IMF / WTO", "url": "https://www.nber.org/", "desc": "国际工作论文、全球经济与贸易治理"}, {"cat": "市场快讯", "name": "东方财富 / 华尔街见闻", "url": "https://caifuhao.eastmoney.com/", "desc": "每日财经综述与宏观市场快讯"}, {"cat": "博士招生", "name": "考博网 / 各校研招网", "url": "https://www.xexam8.com/kaobo/", "desc": "博士招生简章、政策解读与备考信息"}, {"cat": "学术发表", "name": "中国知网 / 万方 / 各大学学报", "url": "https://www.cnki.net/", "desc": "期刊投稿、论文检索与发表流程"}, {"cat": "基金申报", "name": "全国哲学社会科学工作办公室", "url": "https://www.nopss.gov.cn/", "desc": "国家社科基金申报、结项、鉴定"}, {"cat": "教职招聘", "name": "高校人才网", "url": "https://www.gaoxiaojob.com/", "desc": "教职招聘、高层次人才引进"}, {"cat": "教师法规", "name": "教育部教师工作司", "url": "https://www.moe.gov.cn/", "desc": "教师法、职称改革、师德师风"}, {"cat": "校内资讯", "name": "东北财经大学官网", "url": "https://www.dufe.edu.cn/news/", "desc": "东财新闻中心、校内通知与学术讲座"}, {"cat": "大连要闻", "name": "大连天健网 / 央广网大连", "url": "https://dl.cnr.cn/dlyw/", "desc": "大连本地新闻、文旅、经济与社会动态"}, {"cat": "北京要闻", "name": "北京市政府 / 北京日报", "url": "https://www.beijing.gov.cn/", "desc": "北京政务、数字经济与城市发展规划"}, {"cat": "辽宁要闻", "name": "辽宁省人民政府 / 本溪市政府", "url": "https://www.ln.gov.cn/", "desc": "辽宁政务、防汛、本溪本地动态"}, {"cat": "山东要闻", "name": "山东省人民政府 / 德州日报", "url": "https://www.shandong.gov.cn/", "desc": "山东政务、德州三农与产业发展"}], "care": ["偶尔放下手机，看看窗外的天吧 🌿", "熬夜伤身，论文明天还能写，觉得补 🌙", "给自己一个大大的拥抱，你值得被爱 🤗"]}</script>
+
 <script>
-(function(){
-var D=JSON.parse(document.getElementById('data').textContent);
-var cs=["#e11d48", "#2563eb", "#475569", "#c2410c", "#0e7490", "#b45309", "#0f766e", "#9d174d", "#1d4ed8", "#6d28d9", "#047857", "#dc2626", "#0ea5e9", "#ca8a04", "#be185d", "#0891b2", "#1e40af", "#15803d", "#7c3aed", "#b91c1c", "#0d9488", "#7c2d12", "#525252", "#4338ca", "#be123c", "#a21caf", "#166534", "#0284c7"];
-var WEMO={0:"☀️",1:"🌤️",2:"⛅",3:"☁️",45:"🌫️",48:"🌫️",51:"🌦️",53:"🌦️",55:"🌦️",56:"🌧️",57:"🌧️",
-  61:"🌧️",63:"🌧️",65:"🌧️",66:"🌧️",67:"🌧️",71:"🌨️",73:"🌨️",75:"🌨️",77:"❄️",80:"🌦️",
-  81:"🌦️",82:"⛈️",85:"🌨️",86:"🌨️",95:"⛈️",96:"⛈️",99:"⛈️"};
-function g(v){return getComputedStyle(document.documentElement).getPropertyValue('--'+v).trim()}
+/* ============================================================
+   原始新闻数据（与 xiaobao-daily-news 完全一致，按日期归档）
+   ============================================================ */
+const ORIGINAL = {"snap":"2026年07月13日","wk":"星期一","updated":"2026年07月13日 12:34",
+"new_count":40,"love_days":618,
+"sections":[
+ {"label":"今日热点速览","items":[
+  {"title":"外交部就有关国家炒作“南海仲裁案裁决”出台十年发表郑重声明","date":"7月13日","src":"新华社/腾讯新闻","url":"https://new.qq.com/rain/a/20260713A02KZC00?refer=cp_1009","sum":"针对美菲澳加等14国所谓“纪念南海仲裁案裁决”十年联合声明，中方回应：中国对南海诸岛拥有主权，敦促停止挑事生非。","is_new":true},
+  {"title":"强降雨致辽宁多地停课停业停工 全省转移17万人","date":"7月13日","src":"新华社/中国网","url":"https://www.news.cn/politics/20260713/83b287f3fa0f4e33b1a12f54457d3179/c.html","sum":"沈阳13个气象站出现特大暴雨，沈阳、抚顺、锦州、铁岭、盘锦全市停课停业停工；省防办通报全省转移17万人。","is_new":true},
+  {"title":"中央气象台6预警齐发 暴雨橙色、强对流、台风、山洪齐袭","date":"7月13日","src":"央视新闻/四川观察","url":"https://www.sctv.com/news/2076326409268035586","sum":"辽宁中西部、浙西、闽西北等地有大到暴雨；水利部与气象局联合发布红色山洪灾害预警，辽宁东北部和吉林西南部风险很大。","is_new":true},
+  {"title":"美军再对伊朗发动打击 霍尔木兹海峡通行之争升级","date":"7月13日","src":"央视新闻/网易财经","url":"https://www.163.com/dy/article/L1NB5TFL0517BMJU.html","sum":"美军本周第四次打击伊朗，伊朗革命卫队宣布关闭霍尔木兹海峡；布油盘中涨超3%，韩股KOSPI跌超2%。","is_new":true},
+  {"title":"郭涵煜组合夺温网女双冠军 生涯首座大满贯","date":"7月13日","src":"新华社/腾讯新闻","url":"https://new.qq.com/rain/a/20260713A02KZC00?refer=cp_1009","sum":"10号种子、中国选手郭涵煜与法国选手姆拉德诺维奇以2比0夺冠，系其职业生涯首个大满贯女双冠军。","is_new":true},
+  {"title":"2026世界杯四强出炉 英法西阿会师 半决赛15日开打","date":"7月13日","src":"腾讯新闻","url":"https://new.qq.com/rain/a/20260713A02KZC00?refer=cp_1009","sum":"随着阿根廷3比1胜瑞士，法国、西班牙、英格兰、阿根廷晋级四强；7月15、16日半决赛，冠军悬念升级。","is_new":true},
+  {"title":"国家文物局划红线：革命文物保护力戒“焕然一新”“常修常新”","date":"7月13日","src":"北京日报/腾讯新闻","url":"https://new.qq.com/rain/a/20260713A02KZC00?refer=cp_1009","sum":"印发《革命文物保护工程技术导则（试行）》，明确所有保护措施不得改变原状，力戒过度干预与不当干预。","is_new":true},
+  {"title":"国家防总向天津、安徽调拨中央防汛物资 启动山东防汛四级响应","date":"7月13日","src":"央视新闻/四川观察","url":"https://www.sctv.com/news/2076326409268035586","sum":"调拨编织袋、橡皮舟、排涝设备等7500余件支援天津、安徽；加派工作组赴河北、辽宁、吉林协助防汛。","is_new":true},
+  {"title":"商务部、海关总署对氦气实施临时禁止出口管理","date":"7月13日","src":"四川观察","url":"https://www.sctv.com/news/2076326409268035586","sum":"依据《对外贸易法》，对海关商品编号2804290010的氦气实施临时禁止出口管理，保障国内关键气体供应。","is_new":true},
+  {"title":"我国新材料产业产值近10万亿元 建成全球门类最全材料体系","date":"7月13日","src":"经济日报","url":"https://finance.jrj.com.cn/2026/07/13055057775009.shtml","sum":"今年以来持续实施新材料重大专项、产业基础再造工程，累计推动超550亿元新材料产品入市，100多种材料产量居全球前列。","is_new":true},
+  {"title":"上半年线下商圈人流热度同比增5.7% AI等资本投资增118.4%","date":"7月13日","src":"国家信息中心/经济日报","url":"https://finance.jrj.com.cn/2026/07/13055057775009.shtml","sum":"国家信息中心：战略性新兴产业相关专利授权量同比增15.6%，人工智能、人形机器人等前沿领域资本投资金额同比增118.4%。","is_new":true},
+  {"title":"全国暑期文旅消费季启动 发放超4.5亿元消费补贴","date":"7月13日","src":"经济日报/文旅部","url":"https://finance.jrj.com.cn/2026/07/13055057775009.shtml","sum":"消费季持续至8月底，各地举办超3万场文旅活动，围绕消夏避暑、研学旅行、非遗美食发放消费券与补贴。","is_new":true}
+ ],"weather":false},
+ {"label":"知乎热榜","items":[
+  {"title":"腾讯几乎没有人工客服 用户集中吐槽“转人工难”","date":"7月13日","src":"知乎热榜","url":"https://www.zhihu.com/hot","sum":"热榜约673万热度：AI客服矛盾不在“能不能答”而在“能不能负责”，引发平台治理大讨论。","is_new":true},
+  {"title":"广西洪水中“救援航母”开入校园 是什么硬核装备？","date":"7月13日","src":"知乎热榜","url":"https://www.zhihu.com/hot","sum":"热榜约552万热度：硬核装备参与救灾引发关注，网友追问其构造与适用场景。","is_new":true},
+  {"title":"长征十号乙预计7月10—13日首飞 海上网系回收技术有多难？","date":"7月13日","src":"知乎热榜","url":"https://www.zhihu.com/hot","sum":"热榜约183万热度：商业航天可回收火箭首飞在即，回收技术难度与意义受热议。","is_new":true},
+  {"title":"工信部提示Claude Code后门风险 AI编程工具供应链安全引关注","date":"7月13日","src":"知乎热榜","url":"https://www.zhihu.com/hot","sum":"热榜约55万热度：AI编程助手被指存在供应链安全隐患，开发者关注工具可信与安全。","is_new":true},
+  {"title":"小米澎程/SkyNomad主打“空间自定义” 会重新定义家用车吗？","date":"7月13日","src":"知乎热榜","url":"https://www.zhihu.com/hot","sum":"热榜约91万热度：雷军提车内空间不该固定，智能汽车产品策略引发讨论。","is_new":true},
+  {"title":"AI绘画让美术生破防 生成式AI对创意职业影响几何？","date":"7月13日","src":"知乎热榜","url":"https://www.zhihu.com/hot","sum":"热榜约56万热度：生成式AI冲击创意行业，美术生与设计师的焦虑与机会并存。","is_new":true},
+  {"title":"个人记忆交给AI做永久数字档案 隐私伦理边界在哪？","date":"7月13日","src":"知乎热榜","url":"https://www.zhihu.com/hot","sum":"热榜约55万热度：长期记忆、数字分身与隐私伦理成为新知乎热点。","is_new":true},
+  {"title":"家长质疑猿辅导英语老师发音 客服回应“有教资且发音标准”","date":"7月13日","src":"知乎热榜","url":"https://www.zhihu.com/hot","sum":"热榜约742万热度：在线教育师资与发音标准引发对教培质量的反思。","is_new":true},
+  {"title":"清华和协和医学院为什么“分手” 能讲讲这段往事吗？","date":"7月13日","src":"知乎热榜","url":"https://www.zhihu.com/hot","sum":"热榜约269万热度：院系调整历史与医学教育模式引发怀旧与讨论。","is_new":true},
+  {"title":"这一届世界杯阿根廷能卫冕吗？","date":"7月13日","src":"知乎热榜","url":"https://www.zhihu.com/hot","sum":"热榜约123万热度：四强出炉后，卫冕前景与球星表现成为球迷焦点。","is_new":true}
+ ],"weather":false},
+ {"label":"企业动态与真实问题","items":[
+  {"title":"工业富联上半年净利预增93%—101% AI服务器营收增超230%","date":"7月9日","src":"同花顺","url":"https://news.10jqka.com.cn/20260709/c678078135.shtml","sum":"预计上半年归母净利234—244亿创历史新高，AI算力需求驱动强劲增长。","is_new":false},
+  {"title":"兆易创新预计上半年归母净利同比增约1099%","date":"7月9日","src":"每日经济新闻","url":"https://www.163.com/dy/article/L1E8E8LE0512B07B.html","sum":"预计上半年营收约115亿、同比增177%，归母净利约69亿，半导体景气回升。","is_new":false},
+  {"title":"天赐材料上半年归母净利预增907%—1019%","date":"7月9日","src":"每日经济新闻","url":"https://www.163.com/dy/article/L1E8E8LE0512B07B.html","sum":"电解液龙头受益锂电需求回暖，预计上半年归母净利27—30亿元。","is_new":false},
+  {"title":"江波龙上半年净利预增622—744倍 存储超级周期加持","date":"7月8日","src":"证券日报","url":"https://gaoning@stcn.com/article/detail/4007621.html","sum":"预计上半年归母净利92—110亿元，主流存储器价格涨幅显著，赛道业绩全面兑现。","is_new":false},
+  {"title":"浪潮信息上半年净利预增226%—288% 算力需求高景气","date":"7月8日","src":"证券日报","url":"https://gaoning@stcn.com/article/detail/4007621.html","sum":"预计上半年归母净利26—31亿元，全球AI算力建设提速，业绩进入集中释放窗口。","is_new":false},
+  {"title":"行云科技上半年算力订单超65亿元 营收同比增超5倍","date":"7月8日","src":"上海证券报","url":"https://um@stcn.com/article/detail/4007665.html","sum":"6月以来合计收获超65亿元算力服务订单，新开展的存储和算力业务开始确认收入。","is_new":false},
+  {"title":"永鼎股份上半年业绩预增 光通信受益AI算力量价齐升","date":"7月6日","src":"上交所公告","url":"https://www.cninfo.com.cn/new/disclosure/detail?announcementId=1225410333&announcementTime=2026-07-06&orgId=gssh0600105&plate=sse&stockCode=600105","sum":"光通信板块受益数字经济与AI算力需求爆发，光纤市场量价齐升，板块利润大幅增长。","is_new":false},
+  {"title":"众泰汽车涉信披违法违规被立案 连续七年亏损整车业务停摆","date":"7月13日","src":"澎湃新闻","url":"https://www.163.com/dy/article/L1NAKCJA0514R9P4.html","sum":"公司收证监会《立案告知书》，自2019年以来连续七年亏损累计超250亿，此前已多次因信披、会计差错被监管。","is_new":true,"is_issue":true},
+  {"title":"ST银江及控股股东再遭立案 投资者索赔持续推进","date":"7月10日","src":"腾讯财经","url":"https://new.qq.com/rain/a/20260710A0A41G00?refer=cp_1009","sum":"公司及控股股东涉嫌信披违法违规被立案；此前已因资金占用、关联担保、财报虚假记载受行政处罚。","is_new":true,"is_issue":true},
+  {"title":"*ST卓然年报“难产”被实施退市风险警示 独董全票否决财报","date":"7月7日","src":"今日头条","url":"https://www.toutiao.com/article/7659706509647036937/","sum":"3名独董对关联交易、持续经营风险存重大疑虑，年报未能提交董事会；若2个月内仍未披露或终止上市。","is_new":false,"is_issue":true},
+  {"title":"ST萃华三个月内两度遭立案 近10亿债务逾期将被*ST","date":"7月7日","src":"网易财经","url":"https://www.163.com/dy/article/L13QT4FD0512B07B.html","sum":"未能按期披露2025年报，7月7日起被实施退市风险警示；累计超9.5亿借款逾期，双重退市风险悬顶。","is_new":false,"is_issue":true},
+  {"title":"*ST清越涉嫌定期报告财务数据虚假记载 或被重大违法强制退市","date":"7月7日","src":"智通财经","url":"https://www.zhitongcaijing.com/content/detail/1464289.html","sum":"收行政处罚事先告知书，可能触及重大违法强制退市；股价已连续低于1元，面临交易类退市。","is_new":false,"is_issue":true},
+  {"title":"南威软件因涉嫌信披违规被证监会立案","date":"7月10日","src":"证券时报","url":"https://www.toutiao.com/article/7660894395327169066","sum":"公告披露公司因涉嫌信息披露违规被立案调查，监管风险骤升。","is_new":true,"is_issue":true},
+  {"title":"贵州百灵四年财务造假 创始人姜伟被10年市场禁入","date":"3月27日","src":"新华网","url":"http://news.xinhuanet.com/health/20260330/391cddf91db54775b0a6a585f502952c/c.html","sum":"2019—2023年多期年报虚假记载，公司罚千万、创始人遭十年禁入，警示治理崩塌。","is_new":false,"is_issue":true},
+  {"title":"双鹭药业信托理财爆雷7.64亿未收回 董事长自掏5000万填坑","date":"5月6日","src":"华夏时报","url":"https://new.qq.com/rain/a/20260509A03W8D00?refer=cp_1009","sum":"违规通过信托对外提供资金且未披露，遭公开谴责；主业连亏、内控重大缺陷。","is_new":false,"is_issue":true},
+  {"title":"ST美克及子公司债务逾期达11.94亿元","date":"7月","src":"每日经济新闻","url":"https://www.163.com/dy/article/L1E8E8LE0512B07B.html","sum":"连续亏损致部分债务逾期，逾期金融债务占净资产192%，资金链高度紧张。","is_new":false,"is_issue":true}
+ ],"weather":false},
+ {"label":"宏观经济 · 经济与金融","items":[
+  {"title":"6月CPI同比涨1.0%、PPI同比涨4.1% 物价温和回升","date":"7月10日","src":"国家统计局/光明网","url":"https://www.toutiao.com/article/7660711634512216602/","sum":"上半年CPI同比涨1.0%、核心CPI涨1.2%；PPI上半年涨1.5%，物价运行温和回升总体平稳。","is_new":false},
+  {"title":"PPI-CPI剪刀差创4年新高至3.1个百分点 K型分化待破局","date":"7月10日","src":"界面新闻/搜狐","url":"https://www.sohu.com/a/1048525776_313745","sum":"6月PPI-CPI差扩大至3.1个百分点，为2022年7月以来新高，折射“上游热、下游冷”的结构分化。","is_new":false},
+  {"title":"我国新材料产业产值近10万亿元 建成全球门类最全材料体系","date":"7月13日","src":"经济日报","url":"https://finance.jrj.com.cn/2026/07/13055057775009.shtml","sum":"累计推动超550亿元新材料产品入市，100多种材料产量居全球前列，产业基础再造成效显现。","is_new":true},
+  {"title":"上半年线下商圈人流热度同比增5.7% 前沿领域资本投资增118.4%","date":"7月13日","src":"国家信息中心/经济日报","url":"https://finance.jrj.com.cn/2026/07/13055057775009.shtml","sum":"战略性新兴产业专利授权量同比增15.6%，AI、人形机器人等资本投资金额同比增118.4%。","is_new":true},
+  {"title":"全国暑期文旅消费季启动 发放超4.5亿元消费补贴","date":"7月13日","src":"文旅部/经济日报","url":"https://finance.jrj.com.cn/2026/07/13055057775009.shtml","sum":"消费季持续至8月底，各地办超3万场活动，以暑期旺季为窗口激活内需。","is_new":true},
+  {"title":"美伊冲突升级 霍尔木兹海峡通航受阻 布油盘中涨超3%","date":"7月13日","src":"央视新闻/网易财经","url":"https://www.163.com/dy/article/L1NB5TFL0517BMJU.html","sum":"美军本周第四次打击伊朗，伊朗宣布关闭霍尔木兹；布油报78.5美元/桶，韩股KOSPI跌超2%。","is_new":true},
+  {"title":"IEA警告美伊再交火或颠覆明年石油过剩预期 日缺940万桶","date":"7月11日","src":"华尔街见闻/今日头条","url":"https://www.toutiao.com/article/7660969345819869696/","sum":"IEA称6月供应缺口仍达940万桶/日，霍尔木兹通行量仅为战前24%，持久和平是油市正常化前提。","is_new":false},
+  {"title":"商务部、海关总署对氦气实施临时禁止出口管理","date":"7月13日","src":"四川观察","url":"https://www.sctv.com/news/2076326409268035586","sum":"依据《对外贸易法》对氦气临时禁出口，保障国内半导体、医疗等关键领域气体供应。","is_new":true},
+  {"title":"公安部：1至5月全国刑事立案数同比降16.1%","date":"7月13日","src":"经济日报","url":"https://finance.jrj.com.cn/2026/07/13055057775009.shtml","sum":"今年1至5月全国公安机关立刑事案件数同比降16.1%、治安案件降10.6%，社会治安形势持续向好。","is_new":true},
+  {"title":"世界银行维持2026年中国经济增速预期4.4%","date":"7月8日","src":"澎湃新闻","url":"https://www.thepaper.cn/newsDetail_forward_33540626","sum":"世行称中国经济增长总体保持韧性，供强需弱与能源冲击下预期不变。","is_new":false},
+  {"title":"IMF下调2026全球增速至3.0% 中国上调至4.6%","date":"7月9日","src":"证券时报","url":"https://www.stcn.com/article/detail/4007430.html","sum":"中国是为数不多增长预期获上调的主要经济体，高技术制造与出口亮眼。","is_new":false},
+  {"title":"央行二季度例会：适度宽松、加强货币财政协同","date":"7月10日","src":"新浪财经/中国人民银行","url":"https://finance.sina.com.cn/money/bank/bank_hydt/2026-07-10/doc-inihhvke3976069.shtml","sum":"会议首提经贸摩擦冲击，指出国内面临供强需弱、结构分化、外部冲击三重挑战。","is_new":false}
+ ],"weather":false},
+ {"label":"高校 · 教育 · 学术与论文","items":[
+  {"title":"教育部：高校招生录取期间警惕这些骗局","date":"7月11日","src":"全国教育辟谣平台/红网","url":"https://news.voc.com.cn/news/202607/33120305.html","sum":"梳理“作弊通知”“高价志愿填报”“内部指标”“助学金补贴”等七类诈骗套路，提醒考生家长守护升学权益。","is_new":true},
+  {"title":"2026暑期教育部高校学生资助热线7月1日开通","date":"持续","src":"教育部","url":"https://www.xszz.edu.cn/n74/n77/c12704/content.html","sum":"热线010-66097980、010-66096590受理至9月15日，为困难新生提供资助政策咨询，警惕校园贷与诈骗。","is_new":false},
+  {"title":"东北财经大学举办“构建中国财经学科自主知识体系研讨会暨第十届星海论坛”","date":"7月","src":"东北财经大学","url":"https://www.dufe.edu.cn/","sum":"学校成功举办星海论坛，围绕中国财经学科自主知识体系构建展开研讨，服务学科高质量发展。","is_new":false},
+  {"title":"东北财经大学教师祁渊荣获辽宁省委“优秀共产党员”等表彰","date":"6月29日","src":"东北财经大学","url":"https://www.dufe.edu.cn/","sum":"东财基层党组织和党员获辽宁省委表彰，学校党的建设与思政工作再获肯定。","is_new":false},
+  {"title":"东北财经大学2026年博士生拟录名单公示及档案调转通知","date":"7月","src":"东财研究生院","url":"https://graduate.dufe.edu.cn/content_99947.html","sum":"拟录取公示至7月12日，新生信息维护与调档函打印7月6—12日进行，录取通知书7月末起寄发。","is_new":false},
+  {"title":"东财举办中国金融学自主知识体系构建暨专题学术会议","date":"7月1日","src":"东北财经大学","url":"https://www.dufe.edu.cn/","sum":"学校举办中国金融学自主知识体系构建相关学术会议，推进金融学科自主知识体系建设。","is_new":false},
+  {"title":"网络文明建设与互联网文化发展学术研讨会在北大举行","date":"7月9日","src":"中国网","url":"https://business.china.com.cn/2026-07/09/content_43459370.shtml","sum":"北大现代文化研究中心主办，围绕互联网文化治理、AI应用、传统文化数字化展开研讨。","is_new":false},
+  {"title":"2026国内外期刊投稿避坑指南","date":"3月22日","src":"PaperFine","url":"https://paperfine.cn/knowledge/thesis-guide/2026-journal-submission-guide","sum":"含期刊匹配、投稿四大致命坑、状态追踪与审稿回复应对技巧。","is_new":false},
+  {"title":"从零到一：国内外期刊投稿全流程操作指南","date":"5月8日","src":"PaperNex","url":"https://papernex.cn/knowledge/thesis-guide/journals-submission-guide","sum":"手把手拆解投稿系统操作、流程解析与回复技巧，面向投稿新手。","is_new":false}
+ ],"weather":false},
+ {"label":"项目申报相关信息","items":[
+  {"title":"【国家级】新一代人工智能国家科技重大专项2026年度第一批公开项目申报","date":"6月16日","src":"科技部专项办","url":"https://service.most.gov.cn/kjjh_tztg_all/20260616/5837.html","sum":"网上填报2026-06-23 10:00至07-17 16:00，推荐截止07-24；通过国家科技管理信息系统申报。","is_new":false},
+  {"title":"【国家级】重点新材料研发及应用国家科技重大专项2026年度第二批","date":"7月3日","src":"科技部/工信部","url":"https://service.most.gov.cn/kjjh_tztg_all/20260703/5841.html","sum":"网上填报07-16 10:00至08-16 16:00，线上国科管系统+线下纸质材料并行。","is_new":false},
+  {"title":"【国家级】国家自然科学基金2026年度专项项目（人形机器人/NSFC-CERN/生态环境联合基金等）","date":"7月","src":"国家自然科学基金委","url":"https://www.nsfc.gov.cn","sum":"7月新发布湖北人形机器人联合基金、NSFC-CERN重大科学基础设施国际合作、生态环境联合基金等专项指南，在线申报集中受理。","is_new":true},
+  {"title":"【国家级】广播电视和网络视听中长期科技计划2026年度项目申报","date":"7月7日","src":"国家广电总局","url":"http://rta.hebei.gov.cn/view/2456.html","sum":"网上填报07-08 12:00至07-31 12:00，登录广电总局科技项目管理系统填报。","is_new":false},
+  {"title":"【教育部】2026年度教育部人文社会科学研究一般项目申报（系统已截止·转入单位审核）","date":"7月12日","src":"教育部社科司","url":"https://www.moe.gov.cn/s78/A13/tongzhi/202606/t20260612_1440551.html","sum":"网上申报已于7月12日17时截止，各申报单位审核工作截止7月18日；设重点方向、首次限额申报。","is_new":true},
+  {"title":"【教育部】高校思政课教师研究专项与高校辅导员研究专项","date":"6月12日","src":"教育部社科司","url":"https://www.sinoss.net","sum":"聚焦思政课教学与辅导员工作研究，申报系统06-18至07-12受理，单位审核截止07-18。","is_new":false},
+  {"title":"【辽宁省】2026年度辽宁省社会科学规划基金项目申报","date":"7月","src":"辽宁省社科规划基金办/辽宁师大","url":"https://news.lnnu.edu.cn/info/1163/10329.htm","sum":"集中受理至7月27日；含重大委托/重点建设学科/年度/冷门绝学四类，重大委托20项、自选10项。","is_new":false},
+  {"title":"【辽宁省】辽宁省社科基金项目校内申报截止7月13日（部分高校）","date":"7月13日","src":"沈阳科技学院科技处","url":"https://kjc.syist.edu.cn/article/details/id/1175.html","sum":"纸质版交科技处、电子版发邮箱，逾期不予受理；资助额度重大委托/重点学科5万、重点2万、一般/青年1万。","is_new":true},
+  {"title":"【辽宁省】2026年辽宁省科技计划拟立项项目公示","date":"6月11日","src":"辽宁省科技厅","url":"https://kjt.ln.gov.cn","sum":"未来产业研发计划、种质创新工程科技重大专项、应用基础研究、前沿技术研发等计划集中公示。","is_new":false}
+ ],"weather":false},
+ {"label":"地方与院校要闻（东财 / 大连 / 北京 / 辽宁 / 山东）","items":[
+  {"title":"强降雨致辽宁多地停课停业停工 全省转移17万人","date":"7月13日","src":"新华社/中国网","url":"https://www.news.cn/politics/20260713/83b287f3fa0f4e33b1a12f54457d3179/c.html","sum":"沈阳13个气象站现特大暴雨，沈阳、抚顺、锦州、铁岭、盘锦全市停课停业停工；辽河等河流明显涨水。","is_new":true},
+  {"title":"沈阳市防汛指挥部：13日全市中小学幼儿园停课、工地停工","date":"7月13日","src":"央视新闻/腾讯早报","url":"https://new.qq.com/rain/a/20260713A02KZC00?refer=cp_1009","sum":"沈阳全市中小学校、幼儿园、校外培训机构停课，在建工地停工，涉山涉水景区景点、早夜市停业。","is_new":true},
+  {"title":"辽宁将迎两轮强降雨 受台风“巴威”外围水汽影响","date":"7月10日","src":"腾讯新闻","url":"https://news.qq.com/rain/a/20260710A025CJ00","sum":"10日至14日受台风外围、东北冷涡及副高共同影响，辽宁将出现两次强降雨过程。","is_new":false},
+  {"title":"东北财经大学2026年博士生拟录名单公示及档案调转","date":"7月","src":"东财研究生院","url":"https://graduate.dufe.edu.cn/content_99947.html","sum":"拟录取公示至7月12日，信息维护与调档函7月6—12日办理，录取通知书7月末起分批寄发。","is_new":false},
+  {"title":"东财举办“构建中国财经学科自主知识体系研讨会暨第十届星海论坛”","date":"7月","src":"东北财经大学","url":"https://www.dufe.edu.cn/","sum":"研讨中国财经学科自主知识体系，推进学科高质量发展与师资建设。","is_new":false},
+  {"title":"东北财经大学2026本科招生录取进展（实时更新）","date":"7月10日","src":"东北财经大学/优志愿","url":"https://www.youzy.cn/news/detail?id=6a523b9dac0249fc66458114","sum":"澳门保送、台湾学测、华侨港澳台联招等批次已结束，各省本科批次录取陆续推进。","is_new":false},
+  {"title":"北京：全市大中型水库均在汛限水位以下 73处积滞水处置完成","date":"7月13日","src":"北京日报/腾讯新闻","url":"https://new.qq.com/rain/a/20260713A02KZC00?refer=cp_1009","sum":"20座大中型水库较汛限多预留约5.6亿立米库容；入汛以来最强降雨73处次积滞水点位全部处置。","is_new":true},
+  {"title":"探访北京密云新农村中学安置点 群众有序安置","date":"7月13日","src":"中国网/网易","url":"https://www.163.com/dy/article/L1NCUJOQ0514DG98_pdya11y.html","sum":"密云安置点组织插花、义诊等活动，防汛办称本轮强降雨过程仍在持续，多区红色预警。","is_new":true},
+  {"title":"北京环球影城携手洛天依推“14周年共鸣之夜”","date":"7月12日","src":"北京日报/腾讯新闻","url":"https://new.qq.com/rain/a/20260713A02KZC00?refer=cp_1009","sum":"虚拟偶像洛天依首现北京环球度假区，上千名粉丝齐聚“跨次元”视听盛宴。","is_new":true},
+  {"title":"大连市发布暴雨、强对流蓝色预警","date":"7月7日","src":"腾讯新闻","url":"https://view.inews.qq.com/a/20260708A01OC400","sum":"气象台预警庄河、长海等地下大到暴雨并伴强对流，市防汛启动四级应急响应。","is_new":false},
+  {"title":"大连启动高校毕业生一次性求职补贴申领（2000元）","date":"7月6日","src":"腾讯新闻","url":"https://news.qq.com/rain/a/20260706A0233200","sum":"大连市启动2026年高校毕业生一次性求职补贴申领，标准2000元，面向困难毕业生。","is_new":false},
+  {"title":"山东辽宁河北等地有强降水和强对流 “巴威”逼近","date":"7月9日","src":"中国气象局","url":"https://www.163.com/dy/article/L1CNGPGR051484AK.html","sum":"辽宁中北部、山东中北部等局地大暴雨，东北及华北多地有8级以上雷暴大风或冰雹。","is_new":false},
+  {"title":"山东推动虚拟电厂规范高效有序发展","date":"7月8日","src":"新华网山东","url":"http://www.sd.xinhuanet.com/20260708/657f45ab5330402e9cb661a591f9f283/c.html","sum":"《山东省虚拟电厂建设运行管理办法》出台，优化职责分工、能力测试与市场交易。","is_new":false},
+  {"title":"辽宁上半年入境游消费同比增长41.4%","date":"7月3日","src":"辽宁日报","url":"https://www.sohu.com/a/1045622975_121106822","sum":"省委常委会部署防汛抗旱；辽宁文旅消费持续回暖，入境游消费同比高增。","is_new":false}
+ ],"weather":false},
+ {"label":"产业链 · 供应链 · 链长制","items":[
+  {"title":"工信部印发《工业互联网和人工智能融合赋能行动方案》 部署“链网协同”","date":"4月15日","src":"同花顺","url":"https://m.10jqka.com.cn/20260415/c675993511.shtml","sum":"在钢铁、航空等重点行业推广融合应用，建设重点行业数据可信互联平台，推动跨企业共享协同。","is_new":false},
+  {"title":"广东全面推行“链长制” 打造八大世界级先进制造业集群","date":"6月8日","src":"腾讯新闻","url":"https://new.qq.com/rain/a/20260608A07FWR00","sum":"绘制产业链全景图、招商图，实施补链延链强链，前瞻布局量子信息、脑机接口等未来产业。","is_new":false},
+  {"title":"广东、山东推行“链长+链主”责任制 支持链主建智慧供应链","date":"4月15日","src":"同花顺","url":"https://m.10jqka.com.cn/20260415/c675993511.shtml","sum":"支持链主企业建设智慧供应链，实现上下游生产柔性调度、资源动态调配，群体转型提速。","is_new":false},
+  {"title":"发挥经济大省优势 保障产业链供应链安全","date":"6月11日","src":"国家社科基金/求是网","url":"https://www.nopss.gov.cn/BIG5/n1/2026/0611/c219544-40738327.html","sum":"从稳链强链、科技攻坚、深层次改革、高水平开放四维协同，以安全保发展。","is_new":false},
+  {"title":"筑牢江苏产业链供应链安全韧性屏障","date":"2月24日","src":"新华日报/新浪财经","url":"https://finance.sina.com.cn/jjxw/2026-02-24/doc-inhnweyy6268638.shtml","sum":"进口端重在“补链”、建本土化生产基地、搭多元贸易协作平台，降低核心零部件对外依存。","is_new":false},
+  {"title":"国务院公布《关于产业链供应链安全的规定》","date":"4月8日","src":"人民网","url":"https://politics.people.com.cn/n1/2026/0408/c1001-40696782.html","sum":"国务院常务会议通过，自公布施行，防范产业链供应链安全风险、提升韧性。","is_new":false},
+  {"title":"现代化产业体系的理论内涵与实践要求","date":"3月7日","src":"人民网/人民日报","url":"https://theory.people.com.cn/n1/2026/0307/c40531-40676771.html","sum":"围绕发展新质生产力布局产业链，短板产业补链、优势产业延链、新兴产业建链。","is_new":false},
+  {"title":"江西深化“1269”行动计划 加快产业集群提能升级","date":"1月15日","src":"江西省政府","url":"https://www.toutiao.com/article/7595483035954086452/","sum":"发挥产业链链长制作用，推动人才、资金、技术、数据向关键环节集聚。","is_new":false},
+  {"title":"工信部启动产业链强基强链行动 推“人工智能+制造”","date":"4月29日","src":"中国工信新闻网","url":"https://www.cnii.com.cn/gxxww/cyjs/202604/t20260429_733077.html","sum":"聚焦重点领域打通技术卡点堵点，配套“人工智能+制造”专项行动实施意见。","is_new":false}
+ ],"weather":false},
+ {"label":"微信收藏 · 小宝的最新收藏","items":[
+  {"title":"气候行动公正转型工作方案：五大基本原则 | WRI China","date":"📰 04月27日","src":"微信收藏","url":"https://wri.org.cn/","sum":"📌 wri.org.cn · 点开看最新资讯","is_new":false},
+  {"title":"四地案例研究：浅析中国公正转型之路 – 绿色和平","date":"📰 12月12日","src":"微信收藏","url":"https://www.greenpeace.org.cn/","sum":"📌 www.greenpeace.org.cn · 点开看最新资讯","is_new":false},
+  {"title":"关于组织申报2026年国家社会科学基金年度项目的通知 -- 东北财经大学","date":"📰 更新时间未知","src":"微信收藏","url":"https://www.dufe.edu.cn/","sum":"📌 www.dufe.edu.cn · 点开看最新资讯","is_new":false},
+  {"title":"全国碳市场信息网","date":"📰 更新时间未知","src":"微信收藏","url":"https://www.cets.org.cn/","sum":"📌 www.cets.org.cn · 点开看最新资讯","is_new":false},
+  {"title":"习近平系列重要讲话数据库","date":"📰 更新时间未知","src":"微信收藏","url":"https://jhsjk.people.cn/","sum":"📌 jhsjk.people.cn · 点开看最新资讯","is_new":false},
+  {"title":"首页-中国工业经济联合会","date":"📰 更新时间未知","src":"微信收藏","url":"https://www.cfie.org.cn/","sum":"📌 www.cfie.org.cn · 点开看最新资讯","is_new":false},
+  {"title":"中国节能协会碳中和专业委员会","date":"📰 更新时间未知","src":"微信收藏","url":"http://www.ceca-cnc.org.cn/","sum":"📌 www.ceca-cnc.org.cn · 点开看最新资讯","is_new":false},
+  {"title":"中央预决算公开平台","date":"📰 更新时间未知","src":"微信收藏","url":"https://www.mof.gov.cn/","sum":"📌 www.mof.gov.cn · 点开看最新资讯","is_new":false},
+  {"title":"【项目申报】国家社会科学基金后期资助暨优秀博士学位论文出版项目通知","date":"📰 更新时间未知","src":"微信收藏","url":"https://www2.scut.edu.cn/","sum":"📌 www2.scut.edu.cn · 点开看最新资讯","is_new":false},
+  {"title":"绿色转型","date":"📰 更新时间未知","src":"微信收藏","url":"https://www.miit.gov.cn/","sum":"📌 www.miit.gov.cn · 点开看最新资讯","is_new":false},
+  {"title":"碳定价“平衡术”|转型_新浪财经_新浪网","date":"📰 更新时间未知","src":"微信收藏","url":"https://finance.sina.com.cn/","sum":"📌 finance.sina.com.cn · 点开看最新资讯","is_new":false},
+  {"title":"全国碳市场信息网-碳排放权交易","date":"📰 更新时间未知","src":"微信收藏","url":"https://www.cneeex.com/","sum":"📌 www.cneeex.com · 点开看最新资讯","is_new":false}
+ ],"weather":false}
+],
+"sources":[
+ {"cat":"高教政策","name":"教育部","url":"https://www.moe.gov.cn/","desc":"高教政策、招生、资助与学科评估"},
+ {"cat":"学术前沿","name":"NBER / IMF / WTO","url":"https://www.nber.org/","desc":"国际工作论文、全球经济与贸易治理"},
+ {"cat":"市场快讯","name":"东方财富 / 华尔街见闻","url":"https://caifuhao.eastmoney.com/","desc":"每日财经综述与宏观市场快讯"},
+ {"cat":"学术发表","name":"中国知网 / 万方 / 各大学学报","url":"https://www.cnki.net/","desc":"期刊投稿、论文检索与发表流程"},
+ {"cat":"项目申报","name":"国家科技管理信息系统 / 教育部社科司 / 辽宁省科技厅·社科规划办","url":"https://service.most.gov.cn/","desc":"国家级科技重大专项与重点研发计划、教育部人文社科项目、辽宁省科技与社科基金等项目申报入口"},
+ {"cat":"教职招聘","name":"高校人才网","url":"https://www.gaoxiaojob.com/","desc":"教职招聘、高层次人才引进"},
+ {"cat":"教师法规","name":"教育部教师工作司","url":"https://www.moe.gov.cn/","desc":"教师法、职称改革、师德师风"},
+ {"cat":"校内资讯","name":"东北财经大学官网","url":"https://www.dufe.edu.cn/news/","desc":"东财新闻中心、校内通知与学术讲座"},
+ {"cat":"大连要闻","name":"大连天健网 / 央广网大连","url":"https://dl.cnr.cn/dlyw/","desc":"大连本地新闻、文旅、经济与社会动态"},
+ {"cat":"北京要闻","name":"北京市政府 / 北京日报","url":"https://www.beijing.gov.cn/","desc":"北京政务、数字经济与城市发展规划"},
+ {"cat":"辽宁要闻","name":"辽宁省人民政府 / 本溪市政府","url":"https://www.ln.gov.cn/","desc":"辽宁政务、防汛、本溪本地动态"},
+ {"cat":"山东要闻","name":"山东省人民政府 / 德州日报","url":"https://www.shandong.gov.cn/","desc":"山东政务、德州三农与产业发展"}
+],
+"care":["午休哪怕十分钟，下午也精神满满 💤","笑一笑，心情会跟着亮起来 😊","走路别盯手机，看脚下、注意安全 👟"]
+};
+
+/* 仅收录 2026-07-13 当日数据；日期选择器默认即为该日 */
+const NEWS_DB = { "2026-07-13": ORIGINAL };
+const MIN_DATE="2026-07-13", MAX_DATE="2026-07-13", DEFAULT_DATE="2026-07-13";
+
+/* 日期与“在一起天数”按浏览器当天动态计算，打开即最新 */
+const LOVE_BASE_DAYS=618, LOVE_BASE_DATE="2026-07-13";
+function fmtToday(){
+  var t=new Date();
+  var y=t.getFullYear(), m=("0"+(t.getMonth()+1)).slice(-2), d=("0"+t.getDate()).slice(-2);
+  var wk=["日","一","二","三","四","五","六"][t.getDay()];
+  return {snap:y+"年"+m+"月"+d+"日", wk:"星期"+wk, iso:y+"-"+m+"-"+d};
+}
+function calcLoveDays(){
+  var base=new Date(LOVE_BASE_DATE+"T00:00:00");
+  var now=new Date();
+  var diff=Math.floor((now-base)/86400000);
+  return LOVE_BASE_DAYS+diff;
+}
+
+const cs=["#e11d48","#2563eb","#475569","#c2410c","#0e7490","#b45309","#0f766e","#9d174d","#1d4ed8","#6d28d9","#047857","#dc2626","#0ea5e9","#ca8a04","#be185d","#0891b2","#1e40af","#15803d","#7c3aed","#b91c1c","#0d9488","#7c2d12","#525252","#4338ca","#be123c","#a21caf","#166534","#0284c7"];
+function $(id){return document.getElementById(id)}
 function esc(t){return String(t==null?'':t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function eA(t){return esc(t).replace(/'/g,'&#39;')}
 function tr(t,n){var a=Array.from(String(t||''));return a.length<=n?a.join(''):a.slice(0,n-1).join('')+'…'}
-document.getElementById('hd').textContent=D.snap+'（'+(D.wk||'')+'）';
-document.getElementById('hr').textContent='小宝，今天也要好好照顾自己呀 · 每日综合资讯（北京时间）';
-document.getElementById('hu').textContent='🕒 最后更新：'+D.updated+'（北京时间，精确到分钟）　🔴 今日要闻 '+D.new_count+' 条（卡片左上角红点=今日要闻）';
-document.getElementById('love').innerHTML='❤️ 我们已经在一起 <b>'+D.love_days+'</b> 天啦'
-  +'<div class="love-msg">小宝，每一天的陪伴，都是我最想和你一起度过的日子。世界再忙，只要有你在身边就很安心。谢谢你陪我走过这么久，往后的每一天也想和你在一起 ❤️ 爱你哟 💕</div>';
-document.getElementById('fd').textContent=D.snap;
-var total=0;D.sections.forEach(function(s){total+=s.items.length});
-document.getElementById('tc').textContent=total;
-var chips=document.getElementById('sc');
-D.sections.forEach(function(s,i){
-  var c=document.createElement('a');c.className='chip';c.href='#s-'+i;
-  c.innerHTML='<span class="dot" style="background:'+cs[i%cs.length]+'"></span>'
-    +'<span class="n">'+s.items.length+'</span><span class="l">'+esc(s.label)+'</span>';
-  chips.appendChild(c)});
-var nav=document.getElementById('nv'),app=document.getElementById('app'),gidx=0;
-var care=document.getElementById('care');
-if(D.care&&D.care.length){
-  care.innerHTML='<ul>'
-    +D.care.map(function(t){return '<li>💛 '+esc(t)+'</li>'}).join('')+'</ul>';
-}
-D.sections.forEach(function(s,i){
-  var c=cs[i%cs.length];
-  var a=document.createElement('a');a.href='#s-'+i;a.textContent=s.label+' ('+s.items.length+')';nav.appendChild(a);
-  var se=document.createElement('section');se.className='sec';se.id='s-'+i;
-  se.innerHTML='<div class="sec-h"><span class="sec-bar" style="background:'+c+'"></span>'
-    +'<h2>'+esc(s.label)+'</h2><span class="cnt">'+s.items.length+' 条</span></div>';
-  if(s.weather){
-    var wg=document.createElement('div');wg.className='grid';
+
+/* ===== 渲染某日数据 ===== */
+function render(D){
+  var td=fmtToday();
+  $('hd').textContent=td.snap+'（'+td.wk+'）';
+  $('hr').textContent='小宝，今天也要好好照顾自己呀 · 每日综合资讯（北京时间）';
+  $('hu').textContent='🕒 最后更新：'+D.updated+'（北京时间，精确到分钟）　🔴 今日发布要闻 '+D.new_count+' 条（卡片左上角红点=发布日期为今日）';
+  $('love').innerHTML='❤️ 我们已经在一起 <b>'+calcLoveDays()+'</b> 天啦'
+    +'<div class="love-msg">小宝，每一天的陪伴，都是我最想和你一起度过的日子。世界再忙，只要有你在身边就很安心。谢谢你陪我走过这么久，往后的每一天也想和你在一起 ❤️ 爱你哟 💕</div>';
+  $('fd').textContent=td.snap;
+
+  var total=0;D.sections.forEach(function(s){total+=s.items.length});
+  $('tc').textContent=total;
+
+  var chips=$('sc');chips.innerHTML='';
+  D.sections.forEach(function(s,i){
+    var c=document.createElement('a');c.className='chip';c.href='#s-'+i;
+    c.innerHTML='<span class="dot" style="background:'+cs[i%cs.length]+'"></span>'
+      +'<span class="n">'+s.items.length+'</span><span class="l">'+esc(s.label)+'</span>';
+    chips.appendChild(c);
+  });
+
+  var nav=$('nv'),app=$('app'),gidx=0;
+  app.innerHTML='';nav.innerHTML='';
+  var care=$('care');
+  if(D.care&&D.care.length){
+    care.innerHTML='<ul>'+D.care.map(function(t){return '<li>💛 '+esc(t)+'</li>'}).join('')+'</ul>';
+  } else { care.innerHTML=''; }
+
+  D.sections.forEach(function(s,i){
+    var c=cs[i%cs.length];
+    var a=document.createElement('a');a.href='#s-'+i;a.textContent=s.label+' ('+s.items.length+')';nav.appendChild(a);
+    var se=document.createElement('section');se.className='sec';se.id='s-'+i;
+    se.innerHTML='<div class="sec-h"><span class="sec-bar" style="background:'+c+'"></span>'
+      +'<h2>'+esc(s.label)+'</h2><span class="cnt">'+s.items.length+' 条</span></div>';
+    if(s.weather){
+      var wg=document.createElement('div');wg.className='grid';
+      s.items.forEach(function(it){
+        gidx++;var emo=({0:"☀️",1:"🌤️",2:"⛅",3:"☁️",45:"🌫️",48:"🌫️",51:"🌧️",53:"🌧️",55:"🌧️",56:"🌧️",57:"🌧️",
+      61:"🌧️",63:"🌧️",65:"🌧️",66:"🌧️",67:"🌧️",71:"🌨️",73:"🌨️",75:"🌨️",77:"❄️",80:"🌦️",
+      81:"🌦️",82:"⛈️",85:"🌨️",86:"🌨️",95:"⛈️",96:"⛈️",99:"⛈️"})[it.code]||'🌡️';
+        var wd=document.createElement('div');wd.className='card wcard';
+        wd.innerHTML='<div class="wcity">'+emo+' '+esc(it.city)+'</div>'
+          +'<div class="wtemp">'+esc(it.temp)+'<span class="unit">°C</span></div>'
+          +'<div class="wcond">'+esc(it.cond)+' · 最高'+esc(it.high)+'° 最低'+esc(it.low)+'°</div>'
+          +'<div class="wmeta">💨 '+esc(it.wind)+'　💧 湿度'+esc(it.hum)+'%</div>'
+          +'<p class="wtip">'+esc(it.note)+'</p>';
+        wg.appendChild(wd);
+      });
+      se.appendChild(wg);app.appendChild(se);return;
+    }
+    var g=document.createElement('div');g.className='grid';
     s.items.forEach(function(it){
-      gidx++;var emo=WEMO[it.code]||'🌡️';
-      var wd=document.createElement('div');wd.className='card wcard';wd.style.cursor='pointer';
-      wd.addEventListener('click',function(){openWx(it)});
-      var wrd=it.is_new?'<span class="reddot" title="发布日期为今日"></span>':'';
-      wd.innerHTML=wrd
-        +'<div class="wcity">'+emo+' '+esc(it.city)+'</div>'
-        +'<div class="wtemp">'+esc(it.temp)+'<span class="unit">°C</span></div>'
-        +'<div class="wcond">'+esc(it.cond)+' · 最高'+esc(it.high)+'° 最低'+esc(it.low)+'°</div>'
-        +'<div class="wmeta">💨 '+esc(it.wind)+'　💧 湿度'+esc(it.hum)+'%</div>'
-        +'<p class="wtip">'+esc(it.note)+'</p>'
-        +'<div class="wmore">👆 点击查看未来 15 天预报</div>';
-      wg.appendChild(wd);
+      gidx++;var u=it.url||'#';
+      var m='<span class="src" title="'+esc(it.src||'')+'">'+esc(it.src||'')+'</span>';
+      if(it.date)m+='<span class="date">'+esc(it.date)+'</span>';
+      var cd=document.createElement('div');cd.className='card'+(it.is_issue?' issue':'');
+      var rdot=it.is_new?'<span class="reddot" title="发布日期为今日"></span>':'';
+      var ibadge=it.is_issue?'<span class="issue-badge">⚠ 重点问题</span>':'';
+      cd.innerHTML=rdot+ibadge
+        +'<div class="title">'+esc(it.title||'')+'</div><div class="meta">'+m+'</div>'
+        +'<p class="body">'+esc(tr(it.sum||'',60))+'</p>'
+        +'<a class="lnk" href="'+eA(u)+'" target="_blank" rel="noopener noreferrer">阅读原文 &rarr;</a>';
+      g.appendChild(cd);
     });
-    se.appendChild(wg);app.appendChild(se);return;
-  }
-  var g=document.createElement('div');g.className='grid';
-  s.items.forEach(function(it){
-    gidx++;var u=it.url||'#';
-    var m='<span class="src" title="'+esc(it.src||'')+'">'+esc(it.src||'')+'</span>';
-    if(it.date)m+='<span class="date">'+esc(it.date)+'</span>';
-    var cd=document.createElement('div');cd.className='card';
-    var rdot=it.is_new?'<span class="reddot" title="发布日期为今日"></span>':'';
-    cd.innerHTML=rdot
-      +'<div class="title">'+esc(it.title||'')+'</div><div class="meta">'+m+'</div>'
-      +'<p class="body">'+esc(tr(it.sum||'',60))+'</p>'
-      +'<a class="lnk" href="'+eA(u)+'" target="_blank" rel="noopener noreferrer">阅读原文 &rarr;</a>';
-    g.appendChild(cd)});
-  se.appendChild(g);app.appendChild(se)});
-var sn=document.createElement('a');sn.href='#sources';sn.textContent='常备关注源';nav.appendChild(sn);
-var sp=document.createElement('section');sp.className='sources';sp.id='sources';
-sp.innerHTML='<h2>常备关注源 · 教研必备</h2><p class="ld">以下为高校经济学/统计学教师日常应持续跟踪的权威信源，建议加入浏览器收藏夹或 RSS 订阅。</p>';
-var sg=document.createElement('div');sg.className='src-g';
-(D.sources||[]).forEach(function(s){
-  var sc=document.createElement('div');sc.className='src-c';
-  sc.innerHTML='<div class="cat">'+esc(s.cat)+'</div>'
-    +'<a href="'+eA(s.url)+'" target="_blank" rel="noopener noreferrer">'+esc(s.name)+' &rarr;</a>'
-    +'<p class="desc">'+esc(s.desc)+'</p>';sg.appendChild(sc)});
-sp.appendChild(sg);app.appendChild(sp);
-document.getElementById('ft').textContent='本要闻共 '+total+' 条 · 最后更新 '+D.updated+'（北京时间）· 原文以各来源官网为准';
-function openWx(it){
-  var fc=it.forecast||[];
-  document.getElementById('wxmh').innerHTML='🌤️ '+esc(it.city)+' · 未来 15 天预报（点击空白处或按 Esc 关闭）';
-  var grid=document.getElementById('wxmg');
-  if(!fc.length){ grid.innerHTML='<p style="color:#6b7280">暂无预报数据</p>'; return; }
-  var WD=['日','一','二','三','四','五','六'];
-  grid.innerHTML=fc.map(function(f){
-    var emo=WEMO[f.code]||'🌡️';
-    var p=f.date.split('-'); var d=new Date(f.date+'T00:00:00');
-    var wd=WD[d.getDay()]; var mm=parseInt(p[1],10), dd=parseInt(p[2],10);
-    return '<div class="wxd">'
-      +'<div class="wxw">'+mm+'/'+dd+' 周'+wd+'</div>'
-      +'<div class="wxe">'+emo+'</div>'
-      +'<div class="wxc">'+esc(f.cond)+'</div>'
-      +'<div class="wxt">'+esc(f.high)+'° / '+esc(f.low)+'°</div>'
-      +'<div class="wxp">💧 降水 '+esc(f.pop)+'%</div>'
-      +'<div class="wxw2">🌬 '+esc(f.wind)+' km/h</div>'
-      +'</div>';
-  }).join('');
-  document.getElementById('wxm').classList.add('show');
+    se.appendChild(g);app.appendChild(se);
+  });
+
+  var sn=document.createElement('a');sn.href='#sources';sn.textContent='常备关注源';nav.appendChild(sn);
+  var sp=document.createElement('section');sp.className='sources';sp.id='sources';
+  sp.innerHTML='<h2>常备关注源 · 教研必备</h2><p class="ld">以下为高校经济学/统计学教师日常应持续跟踪的权威信源，建议加入浏览器收藏夹或 RSS 订阅。</p>';
+  var sg=document.createElement('div');sg.className='src-g';
+  (D.sources||[]).forEach(function(s){
+    var sc=document.createElement('div');sc.className='src-c';
+    sc.innerHTML='<div class="cat">'+esc(s.cat)+'</div>'
+      +'<a href="'+eA(s.url)+'" target="_blank" rel="noopener noreferrer">'+esc(s.name)+' &rarr;</a>'
+      +'<p class="desc">'+esc(s.desc)+'</p>';sg.appendChild(sc);
+  });
+  sp.appendChild(sg);app.appendChild(sp);
+  $('ft').textContent='本要闻共 '+total+' 条 · 最后更新 '+D.updated+'（北京时间）· 原文以各来源官网为准';
+
+  observeSections(D.sections.length);
+  var first=nav.querySelector('a');if(first)first.classList.add('active');
 }
-function closeWx(){ document.getElementById('wxm').classList.remove('show'); }
-document.getElementById('wxm').addEventListener('click',function(e){ if(e.target===this) closeWx(); });
-document.getElementById('wxmclose').addEventListener('click',closeWx);
-document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeWx(); });
-})();
+
+/* 滚动高亮当前分类 */
+function observeSections(n){
+  if(!('IntersectionObserver' in window))return;
+  var secs=[];for(var i=0;i<n;i++)secs.push($('s-'+i));
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        document.querySelectorAll('#nv a').forEach(function(x){
+          x.classList.toggle('active', x.getAttribute('href')==='#'+e.target.id);
+        });
+      }
+    });
+  },{rootMargin:'-112px 0px -70% 0px'});
+  secs.forEach(function(s){if(s)io.observe(s)});
+}
+
+/* ===== 骨架屏 + 动态加载 ===== */
+function renderSkeleton(){
+  var app=$('app');var html='';
+  for(var s=0;s<3;s++){
+    html+='<div class="sec"><div class="sec-h"><span class="sec-bar"></span><h2>加载中…</h2></div><div class="grid skeleton">';
+    for(var k=0;k<4;k++){
+      html+='<div class="skel-card"><div class="skel-line w90"></div><div class="skel-line w70"></div><div class="skel-line w50"></div><div class="skel-line w70"></div></div>';
+    }
+    html+='</div></div>';
+  }
+  app.innerHTML=html;
+}
+
+function loadDate(dateStr,animate){
+  if(!NEWS_DB[dateStr]){
+    $('hd').textContent=dateStr;
+    $('hr').textContent='该日期暂无新闻归档';
+    $('hu').textContent='';
+    $('tc').textContent='0';
+    $('sc').innerHTML='';$('nv').innerHTML='';$('care').innerHTML='';
+    var app=$('app');
+    app.innerHTML='<div class="empty"><div class="ico">🗞️</div><h3>该日期暂无收录新闻</h3>'
+      +'<p>仅收录 2026-07-13 当日数据。回到今天查看完整要闻。</p>'
+      +'<button id="backToday">回到今天</button></div>';
+    $('backToday').addEventListener('click',function(){loadDate(DEFAULT_DATE,true)});
+    return;
+  }
+  if(animate!==false){
+    renderSkeleton();
+    $('hu').textContent='🔄 正在动态加载新闻…';
+    setTimeout(function(){render(NEWS_DB[dateStr])},260);
+  } else {
+    render(NEWS_DB[dateStr]);
+  }
+}
+
+/* ===== 日期切换交互 ===== */
+function shiftDay(delta){
+  var dp=$('datePicker');
+  var p=dp.value.split('-');var d=new Date(+p[0],+p[1]-1,+p[2]);
+  d.setDate(d.getDate()+delta);
+  var s=d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);
+  if(s<MIN_DATE)s=MIN_DATE;if(s>MAX_DATE)s=MAX_DATE;
+  dp.value=s;loadDate(s,true);
+}
+
+function init(){
+  var dp=$('datePicker');
+  dp.min=MIN_DATE;dp.max=MAX_DATE;dp.value=DEFAULT_DATE;
+  dp.addEventListener('change',function(){if(dp.value)loadDate(dp.value,true)});
+  $('prevDay').addEventListener('click',function(){shiftDay(-1)});
+  $('nextDay').addEventListener('click',function(){shiftDay(1)});
+  $('todayBtn').addEventListener('click',function(){dp.value=DEFAULT_DATE;loadDate(DEFAULT_DATE,true)});
+  loadDate(DEFAULT_DATE,true);
+}
+document.addEventListener('DOMContentLoaded',init);
 </script>
 </body>
 </html>
