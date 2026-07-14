@@ -1,13 +1,13 @@
 # 小宝专属每日要闻 —— 自动刷新工作流（方案 A：以 GitHub 仓库为唯一生成源）
-# 触发：测试期每 5 分钟一次（验证 kick 禁用→启用后 on:schedule 是否生效）+ 手动触发
+# 触发：每日 6 个整点（北京时间）+ 手动触发（Actions 页面 Run workflow）
 # 行为：运行 build_news.py 实时抓取并刷新 index.html，提交回 main 分支 → GitHub Pages 自动部署
-# ⚠️ 临时测试用：验证通过后请改回每日 6 档（cron: "0 22,1,4,7,10,13 * * *"，对应北京时间 6/9/12/15/18/21 点）
+# 注：GitHub 原生 on:schedule 当前对该仓库不触发(平台侧调度问题，已多次验证)，自动刷新暂以手动/CLI 触发兜底。
 name: 每日要闻自动刷新
 
 on:
   schedule:
-    # 测试期：每 5 分钟触发一次，确认 kick 后定时机制可用
-    - cron: "*/5 * * * *"
+    # GitHub Actions 的 cron 为 UTC。北京时间 6/9/12/15/18/21 点 = UTC 22/1/4/7/10/13 点（前一日 22 点对应北京次日 6 点）
+    - cron: "0 22,1,4,7,10,13 * * *"
   workflow_dispatch: {}   # 允许在 Actions 页面手动触发，便于验证
 
 permissions:
