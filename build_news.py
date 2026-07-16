@@ -106,6 +106,7 @@ def _rss_items(url, max_n=40, src="新闻"):
             pu = re.search(r"</link>\s*([A-Z][a-z]{2},\s*\d{1,2}-[A-Z][a-z]{2}-\d{4}[^<]*)", blk)
         desc = re.search(r"<description[ >](.*?)</description>", blk, re.S) or re.search(r"<summary[ >](.*?)</summary>", blk, re.S)
         ti = _clean(t.group(1)) if t else ""
+        ti = re.sub(r"\s-\s[^\s]{1,40}$", "", ti)  # Google News 等会在标题末尾附加「 - 来源」，剥离之
         if not ti:
             la = re.search(r'<link[^>]*href="([^"]+)"', blk); ti = _clean(la.group(0)) if la else ""
         if not ti:
@@ -140,8 +141,8 @@ def _get_kr():
         _KR_CACHE = items
     return _KR_CACHE
 
-# Bing 新闻检索词（覆盖科技/财经/政策/地方等）
-_BING_Q = ["人工智能", "科技", "财经", "经济", "政策", "央行", "国际新闻", "体育", "娱乐", "今日要闻",
+# 新闻检索词（覆盖科技/财经/政策/地方等），用于 Google News RSS 检索（Bing 新闻 RSS 已失效，改用 Google News）
+_NEWS_Q = ["人工智能", "科技", "财经", "经济", "政策", "央行", "国际新闻", "体育", "娱乐", "今日要闻",
            "企业", "芯片", "机器人", "新能源", "GDP", "CPI", "国内要闻", "航天", "医疗",
            "辽宁", "大连", "北京", "山东", "金融", "宏观"]
 _POOL = None
@@ -154,9 +155,10 @@ def _build_pool():
     for it in _get_kr():
         if it["date"]:
             raw.append(it)
-    for q in _BING_Q:
+    for q in _NEWS_Q:
         try:
-            for it in _rss_items("https://www.bing.com/news/search?q=%s&format=rss" % urllib.parse.quote(q), max_n=20, src="Bing新闻"):
+            u = "https://news.google.com/rss/search?q=%s&hl=zh-CN&gl=CN&ceid=CN:zh-Hans" % urllib.parse.quote(q)
+            for it in _rss_items(u, max_n=30, src="Google新闻"):
                 if it["date"]:
                     raw.append(it)
         except Exception:
@@ -292,11 +294,11 @@ def _get_bili_hot(max_n=15):
 
 # ===================== 板块构建（按当前 index.html 的 9 个板块标签映射） =====================
 def _san(s):
-    """清洗会破坏 JS 字符串字面量的字符：U+2028/U+2029、零宽字符、非常规控制字符。"""
+    """清洗会破坏 JS 字符串字面量的字符：U+2028/U+2029、零宽字符、全部控制字符（含换行/制表/回车）。"""
     if not isinstance(s, str):
         return s
     s = s.replace("\u2028", " ").replace("\u2029", " ").replace("\u200b", " ")
-    s = re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f]", "", s)
+    s = re.sub(r"[\x00-\x1f]", "", s)
     return s.strip()
 
 def _md(d):
@@ -351,43 +353,26 @@ def _live_zhihu(n=10):
         out.append(_item(r["title"], r.get("date") or "今日", "知乎热榜", r["url"], summary, True))
     return out
 
-def _live_hotspot(n=20):
-    """「今日热点速览」：百度热搜 + 微博热搜 + B站热门 多源轮转交错，再用水新闻池补齐。
-    轮转保证板块内就混排了多个热点站；全程走 CLAIMED 跨板块去重，保证与其他板块互不重复。"""
-    pools = [_get_baidu_hot(), _get_weibo_hot(), _get_bili_hot()]
-    idx = [0] * len(pools)
+def _live_hot_list(fn, n):
+    """通用热榜板块：调用抓取函数 fn() 取热榜列表，转成卡片并走 CLAIMED 跨板块去重，上限 n 条。
+    用于百度热点 / 微博热搜 / B站热门等「单一热点站独立成板块」的场景。"""
     out = []
-    # 多源轮转交错，直到凑满 n 条或各热榜耗尽
-    added = True
-    while len(out) < n and added:
-        added = False
-        for pi, pool in enumerate(pools):
-            if idx[pi] >= len(pool):
-                continue
-            it = pool[idx[pi]]; idx[pi] += 1
-            k = _claim_key(it)
-            if k in CLAIMED:
-                continue
-            CLAIMED.add(k)
-            out.append(_item(it["title"], "今日", it.get("src", "热搜"), it["url"], it.get("summary") or "点击查看详情", True))
-            added = True
-            if len(out) >= n:
-                break
-    # 热搜不足 n 条时，用新闻池（36氪 + Bing）补齐，同样跳过已认领项
-    if len(out) < n:
-        for it in _build_pool():
-            k = _claim_key(it)
-            if k in CLAIMED:
-                continue
-            CLAIMED.add(k)
-            out.append(_item(it["title"], _md(it["date"]), it["src"], it["url"], it["summary"] or "点击查看详情", True))
-            if len(out) >= n:
-                break
+    for it in fn():
+        k = _claim_key(it)
+        if k in CLAIMED:
+            continue
+        CLAIMED.add(k)
+        out.append(_item(it["title"], it.get("date") or "今日", it.get("src", "热搜"), it["url"], it.get("summary") or "点击查看详情", True))
+        if len(out) >= n:
+            break
     return out
 
 # 哪些板块走实时抓取（key = index.html 中的板块 label，value = 抓取函数）
 LIVE = {
-    "今日热点速览": lambda: _live_hotspot(20),
+    "今日热点速览": lambda: _live_pool_items(None, 50),
+    "百度热点": lambda: _live_hot_list(_get_baidu_hot, 50),
+    "微博热搜": lambda: _live_hot_list(_get_weibo_hot, 50),
+    "B站热门": lambda: _live_hot_list(_get_bili_hot, 50),
     "知乎热榜": lambda: _live_zhihu(10),
     "企业动态与真实问题": lambda: _live_pool_items(
         ["企业", "业绩", "融资", "上市", "IPO", "财报", "公司", "股价", "市值", "营收", "净利", "ST", "立案", "退市"], 14),
