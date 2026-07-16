@@ -3,7 +3,8 @@
 
 设计原则（用户要求）：
 - 不改动 index.html 的页面模块 / 渲染逻辑 / 样式，只替换其中的 ORIGINAL 数据；
-- 数据源抓取方式参考 gen_daily.py：36氪 RSS、中国新闻网 RSS、知乎热榜(readep.com)，
+- 数据源抓取方式参考 gen_daily.py：36氪 RSS、中国新闻网 RSS、知乎热榜(readep.com)、
+  百度热搜 / 微博热搜 / 夸克24小时热点（各站官方接口），
   纯标准库实现，无需任何 API Key，可在 GitHub Actions 无头环境直接运行。
   注：Bing 新闻 RSS 已于全球范围失效（返回 HTML 而非 RSS）；Google News 国内无梯子打不开，
   故「今日热点」等新闻类板块统一改用 36氪 + 中国新闻网（链接国内可直接打开、实时）。
@@ -262,6 +263,34 @@ def _get_weibo_hot(max_n=30):
             break
     return out
 
+def _get_quark_hot(max_n=50):
+    """夸克24小时热点：iflow.quark.cn 官方聚合接口（aggregation_id 固定，稳定可用，国内可直接打开）。"""
+    u = ("https://iflow.quark.cn/iflow/api/v1/article/aggregation"
+         "?aggregation_id=16665090098771297825&count=50&bottom_pos=0")
+    d = _fjget(
+        u, timeout=30,
+        extra_headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"},
+    )
+    if not d:
+        return []
+    out = []
+    for a in (d.get("data") or {}).get("articles") or []:
+        title = _clean(a.get("title"))
+        if not title:
+            continue
+        aid = a.get("id") or ""
+        url = ("https://123.quark.cn/detail?item_id=%s" % aid) if aid else "https://123.quark.cn"
+        summary = _clean(a.get("summary")) or "夸克24小时热点"
+        out.append({
+            "title": title,
+            "url": url,
+            "summary": summary[:80],
+            "src": "夸克热点", "date": "今日",
+        })
+        if len(out) >= max_n:
+            break
+    return out
+
 # ===================== 板块构建（按当前 index.html 的板块标签映射） =====================
 def _san(s):
     """清洗会破坏 JS 字符串字面量的字符：U+2028/U+2029、零宽字符、全部控制字符（含换行/制表/回车）。"""
@@ -342,6 +371,7 @@ LIVE = {
     "今日热点速览": lambda: _live_pool_items(None, 50),
     "百度热点": lambda: _live_hot_list(_get_baidu_hot, 50),
     "微博热搜": lambda: _live_hot_list(_get_weibo_hot, 50),
+    "夸克24小时热点": lambda: _live_hot_list(_get_quark_hot, 50),
     "知乎热榜": lambda: _live_zhihu(10),
     "企业动态与真实问题": lambda: _live_pool_items(
         ["企业", "业绩", "融资", "上市", "IPO", "财报", "公司", "股价", "市值", "营收", "净利", "ST", "立案", "退市"], 14),
@@ -368,6 +398,7 @@ _SECTION_ORDER = [
     "微信收藏 · 小宝的最新收藏",
     "百度热点",
     "微博热搜",
+    "夸克24小时热点",
 ]
 _SECTION_REMOVED = {"B站热门"}  # 用户要求取消的板块
 
@@ -413,12 +444,23 @@ def refresh(obj):
         except Exception:
             items = []
         live_items[label] = items
-    # 按权威顺序输出板块：剔除已取消板块，_SECTION_ORDER 内按表序，其余保持原序追加
+    # 按权威顺序输出板块：剔除已取消板块，_SECTION_ORDER 内按表序，其余保持原序追加；
+    # 并自动补齐 index.html 中尚缺的 LIVE 板块（自举：首次运行注入，之后正常刷新）。
     kept = [s for s in obj.get("sections", []) if s.get("label") not in _SECTION_REMOVED]
     ranked = sorted(
         kept,
         key=lambda s: _SECTION_ORDER.index(s["label"]) if s["label"] in _SECTION_ORDER else len(_SECTION_ORDER),
     )
+    present = {s["label"] for s in ranked}
+    for label in _SECTION_ORDER:
+        if label in LIVE and label not in present:
+            ranked.append({"label": label, "items": [], "weather": False})
+            present.add(label)
+    # 兜底：LIVE 中存在但未列入 _SECTION_ORDER 的板块，追加到末尾，避免遗漏
+    for label in LIVE:
+        if label not in present:
+            ranked.append({"label": label, "items": [], "weather": False})
+            present.add(label)
     sections = []
     for sec in ranked:
         label = sec.get("label", "")
