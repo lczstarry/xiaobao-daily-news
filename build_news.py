@@ -354,6 +354,23 @@ LIVE = {
 }
 MIN_LIVE = 3  # 抓取条数低于此值则回退到原精选内容（保证页面永不空）
 
+# 板块展示顺序与成员（build_news.py 为顺序与成员的「唯一权威」，不依赖 index.html 当前顺序）：
+# 取消「B站热门」；「百度热点」「微博热搜」移至列表末尾。不在下表且不属删除集的板块保持原序追加。
+_SECTION_ORDER = [
+    "今日热点速览",
+    "知乎热榜",
+    "企业动态与真实问题",
+    "宏观经济 · 经济与金融",
+    "高校 · 教育 · 学术与论文",
+    "项目申报相关信息",
+    "地方与院校要闻（东财 / 大连 / 北京 / 辽宁 / 山东）",
+    "产业链 · 供应链 · 链长制",
+    "微信收藏 · 小宝的最新收藏",
+    "百度热点",
+    "微博热搜",
+]
+_SECTION_REMOVED = {"B站热门"}  # 用户要求取消的板块
+
 def _is_today(ds):
     if not ds:
         return False
@@ -396,9 +413,14 @@ def refresh(obj):
         except Exception:
             items = []
         live_items[label] = items
-    # 按 index.html 原有板块顺序输出，保持页面布局不变
+    # 按权威顺序输出板块：剔除已取消板块，_SECTION_ORDER 内按表序，其余保持原序追加
+    kept = [s for s in obj.get("sections", []) if s.get("label") not in _SECTION_REMOVED]
+    ranked = sorted(
+        kept,
+        key=lambda s: _SECTION_ORDER.index(s["label"]) if s["label"] in _SECTION_ORDER else len(_SECTION_ORDER),
+    )
     sections = []
-    for sec in obj.get("sections", []):
+    for sec in ranked:
         label = sec.get("label", "")
         if label in live_items:
             items = live_items[label]
