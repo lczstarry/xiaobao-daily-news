@@ -207,9 +207,9 @@ def _get_zhihu():
         seen.add(it["url"]); uniq.append(it)
     return uniq[:10]
 
-# ===================== 公开热榜实时抓取（百度 / 微博 / B站，均免 API Key） =====================
+# ===================== 公开热榜实时抓取（百度 / 微博，均免 API Key） =====================
 def _compact(s):
-    """折叠异常空白（B站等标题偶有多余空格），便于展示与去重键归一化。"""
+    """折叠异常空白（热点站标题偶有多余空格），便于展示与去重键归一化。"""
     return re.sub(r"\s+", " ", s or "").strip()
 
 def _get_baidu_hot(max_n=30):
@@ -262,32 +262,7 @@ def _get_weibo_hot(max_n=30):
             break
     return out
 
-def _get_bili_hot(max_n=15):
-    """B站热门：api.bilibili.com/x/web-interface/popular（需 Referer）。"""
-    d = _fjget(
-        "https://api.bilibili.com/x/web-interface/popular?ps=20&pn=1", timeout=30,
-        extra_headers={"Referer": "https://www.bilibili.com/"},
-    )
-    if not d or d.get("code") != 0:
-        return []
-    out = []
-    for x in (d.get("data") or {}).get("list") or []:
-        title = _compact(x.get("title"))
-        if not title:
-            continue
-        bvid = x.get("bvid") or ""
-        url = ("https://www.bilibili.com/video/%s" % bvid) if bvid else "https://www.bilibili.com/v/popular/all"
-        out.append({
-            "title": title,
-            "url": url,
-            "summary": "B站热门",
-            "src": "B站热门", "date": "今日",
-        })
-        if len(out) >= max_n:
-            break
-    return out
-
-# ===================== 板块构建（按当前 index.html 的 9 个板块标签映射） =====================
+# ===================== 板块构建（按当前 index.html 的板块标签映射） =====================
 def _san(s):
     """清洗会破坏 JS 字符串字面量的字符：U+2028/U+2029、零宽字符、全部控制字符（含换行/制表/回车）。"""
     if not isinstance(s, str):
@@ -350,7 +325,7 @@ def _live_zhihu(n=10):
 
 def _live_hot_list(fn, n):
     """通用热榜板块：调用抓取函数 fn() 取热榜列表，转成卡片并走 CLAIMED 跨板块去重，上限 n 条。
-    用于百度热点 / 微博热搜 / B站热门等「单一热点站独立成板块」的场景。"""
+    用于百度热点 / 微博热搜等「单一热点站独立成板块」的场景。"""
     out = []
     for it in fn():
         k = _claim_key(it)
@@ -367,7 +342,6 @@ LIVE = {
     "今日热点速览": lambda: _live_pool_items(None, 50),
     "百度热点": lambda: _live_hot_list(_get_baidu_hot, 50),
     "微博热搜": lambda: _live_hot_list(_get_weibo_hot, 50),
-    "B站热门": lambda: _live_hot_list(_get_bili_hot, 50),
     "知乎热榜": lambda: _live_zhihu(10),
     "企业动态与真实问题": lambda: _live_pool_items(
         ["企业", "业绩", "融资", "上市", "IPO", "财报", "公司", "股价", "市值", "营收", "净利", "ST", "立案", "退市"], 14),
