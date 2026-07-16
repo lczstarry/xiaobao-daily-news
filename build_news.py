@@ -3,8 +3,10 @@
 
 设计原则（用户要求）：
 - 不改动 index.html 的页面模块 / 渲染逻辑 / 样式，只替换其中的 ORIGINAL 数据；
-- 数据源抓取方式参考 gen_daily.py：36氪 RSS、Bing 新闻 RSS、知乎热榜(readep.com)，
+- 数据源抓取方式参考 gen_daily.py：36氪 RSS、中国新闻网 RSS、知乎热榜(readep.com)，
   纯标准库实现，无需任何 API Key，可在 GitHub Actions 无头环境直接运行。
+  注：Bing 新闻 RSS 已于全球范围失效（返回 HTML 而非 RSS）；Google News 国内无梯子打不开，
+  故「今日热点」等新闻类板块统一改用 36氪 + 中国新闻网（链接国内可直接打开、实时）。
 
 流程：读取 index.html（页面外壳 + 原数据）→ 实时抓取刷新「新闻类」板块 →
 常青 / 收藏类板块保留原精选内容 → 回写 ORIGINAL 与日期并覆盖 index.html。
@@ -106,7 +108,6 @@ def _rss_items(url, max_n=40, src="新闻"):
             pu = re.search(r"</link>\s*([A-Z][a-z]{2},\s*\d{1,2}-[A-Z][a-z]{2}-\d{4}[^<]*)", blk)
         desc = re.search(r"<description[ >](.*?)</description>", blk, re.S) or re.search(r"<summary[ >](.*?)</summary>", blk, re.S)
         ti = _clean(t.group(1)) if t else ""
-        ti = re.sub(r"\s-\s[^\s]{1,40}$", "", ti)  # Google News 等会在标题末尾附加「 - 来源」，剥离之
         if not ti:
             la = re.search(r'<link[^>]*href="([^"]+)"', blk); ti = _clean(la.group(0)) if la else ""
         if not ti:
@@ -130,21 +131,15 @@ def _rss_items(url, max_n=40, src="新闻"):
             break
     return out
 
-_KR_CACHE = None
-def _get_kr():
-    global _KR_CACHE
-    if _KR_CACHE is None:
-        items = _rss_items("https://36kr.com/feed", max_n=30, src="36氪")
-        for it in items:
-            if it["date"] is None:
-                it["date"] = _DT   # 36氪为实时源，解析失败按今日计
-        _KR_CACHE = items
-    return _KR_CACHE
-
-# 新闻检索词（覆盖科技/财经/政策/地方等），用于 Google News RSS 检索（Bing 新闻 RSS 已失效，改用 Google News）
-_NEWS_Q = ["人工智能", "科技", "财经", "经济", "政策", "央行", "国际新闻", "体育", "娱乐", "今日要闻",
-           "企业", "芯片", "机器人", "新能源", "GDP", "CPI", "国内要闻", "航天", "医疗",
-           "辽宁", "大连", "北京", "山东", "金融", "宏观"]
+# 新闻类板块的实时数据源（国内可直接打开、且为当天实时更新）。
+# Bing 新闻 RSS 已全球失效、Google News 国内无梯子打不开，故采用以下国内源替代：
+#   36氪（科技/创投/财经）、中国新闻网滚动、中国新闻网·财经。
+_FEEDS = [
+    ("36氪", "https://36kr.com/feed", 30),
+    ("中国新闻网", "https://www.chinanews.com.cn/rss/scroll-news.xml", 30),
+    ("中国新闻网·财经", "https://www.chinanews.com.cn/rss/finance.xml", 30),
+]
+_FRESH_DAYS = 7  # 新鲜度过滤：丢弃超过该天数的陈旧条目（防止误接入停服/陈旧源时混入旧闻）
 _POOL = None
 CLAIMED = set()   # 跨板块去重：已分配给某板块的新闻键集合，每次 refresh 重置
 def _build_pool():
@@ -152,15 +147,15 @@ def _build_pool():
     if _POOL is not None:
         return _POOL
     raw = []
-    for it in _get_kr():
-        if it["date"]:
-            raw.append(it)
-    for q in _NEWS_Q:
+    for src, url, n in _FEEDS:
         try:
-            u = "https://news.google.com/rss/search?q=%s&hl=zh-CN&gl=CN&ceid=CN:zh-Hans" % urllib.parse.quote(q)
-            for it in _rss_items(u, max_n=30, src="Google新闻"):
-                if it["date"]:
-                    raw.append(it)
+            for it in _rss_items(url, max_n=n, src=src):
+                if it["date"] is None:
+                    it["date"] = _DT   # 实时源解析失败按今日计
+                # 新鲜度过滤：丢弃超过 _FRESH_DAYS 天的陈旧条目（避免接入到停服/陈旧源时混入旧闻）
+                if it["date"] and (_DT - it["date"]).days > _FRESH_DAYS:
+                    continue
+                raw.append(it)
         except Exception:
             pass
     seen = set(); uniq = []
