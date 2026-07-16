@@ -25,7 +25,7 @@ def _fop():
     # 原 gen_daily.py 走公司代理 http://10.255.243.177:3128；GitHub Actions 无头环境直连公网即可
     return urllib.request.build_opener()
 
-def _fget(url, timeout=25, tries=2):
+def _fget(url, timeout=25, tries=2, extra_headers=None):
     last = None
     for _ in range(tries):
         try:
@@ -34,6 +34,7 @@ def _fget(url, timeout=25, tries=2):
                 headers={
                     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124 Safari/537.36",
                     "Accept": "application/rss+xml, application/xml, text/xml, */*",
+                    **(extra_headers or {}),
                 },
             )
             with _fop().open(req, timeout=timeout) as r:
@@ -41,6 +42,16 @@ def _fget(url, timeout=25, tries=2):
         except Exception as e:
             last = e
     return ""
+
+def _fjget(url, timeout=25, tries=2, extra_headers=None):
+    """抓取并解析 JSON；失败（含解析异常）返回 None。"""
+    raw = _fget(url, timeout=timeout, tries=tries, extra_headers=extra_headers)
+    if not raw:
+        return None
+    try:
+        return json.loads(raw)
+    except Exception:
+        return None
 
 def _clean(s):
     if not s:
@@ -199,6 +210,86 @@ def _get_zhihu():
         seen.add(it["url"]); uniq.append(it)
     return uniq[:10]
 
+# ===================== 公开热榜实时抓取（百度 / 微博 / B站，均免 API Key） =====================
+def _compact(s):
+    """折叠异常空白（B站等标题偶有多余空格），便于展示与去重键归一化。"""
+    return re.sub(r"\s+", " ", s or "").strip()
+
+def _get_baidu_hot(max_n=30):
+    """百度实时热搜：top.baidu.com/api/board，结构 data.cards[0].content[0].content。"""
+    d = _fjget("https://top.baidu.com/api/board?platform=wise&tab=realtime", timeout=30)
+    if not d:
+        return []
+    try:
+        content = d["data"]["cards"][0]["content"][0]["content"]
+    except Exception:
+        return []
+    out = []
+    for c in content:
+        word = _compact(c.get("word"))
+        if not word:
+            continue
+        desc = _compact(c.get("desc"))
+        out.append({
+            "title": word,
+            "url": c.get("url") or "https://top.baidu.com/board",
+            "summary": (desc[:80] if desc else "百度实时热搜"),
+            "src": "百度热搜", "date": "今日",
+        })
+        if len(out) >= max_n:
+            break
+    return out
+
+def _get_weibo_hot(max_n=30):
+    """微博热搜：weibo.com/ajax/side/hotSearch（需 Referer，否则 403）。"""
+    d = _fjget(
+        "https://weibo.com/ajax/side/hotSearch", timeout=30,
+        extra_headers={"Referer": "https://weibo.com/", "X-Requested-With": "XMLHttpRequest"},
+    )
+    if not d:
+        return []
+    rt = (d.get("data") or {}).get("realtime") or []
+    out = []
+    for x in rt:
+        word = _compact(x.get("word"))
+        if not word:
+            continue
+        url = "https://s.weibo.com/weibo?q=%s" % urllib.parse.quote("#" + word + "#")
+        out.append({
+            "title": word,
+            "url": url,
+            "summary": "微博热搜",
+            "src": "微博热搜", "date": "今日",
+        })
+        if len(out) >= max_n:
+            break
+    return out
+
+def _get_bili_hot(max_n=15):
+    """B站热门：api.bilibili.com/x/web-interface/popular（需 Referer）。"""
+    d = _fjget(
+        "https://api.bilibili.com/x/web-interface/popular?ps=20&pn=1", timeout=30,
+        extra_headers={"Referer": "https://www.bilibili.com/"},
+    )
+    if not d or d.get("code") != 0:
+        return []
+    out = []
+    for x in (d.get("data") or {}).get("list") or []:
+        title = _compact(x.get("title"))
+        if not title:
+            continue
+        bvid = x.get("bvid") or ""
+        url = ("https://www.bilibili.com/video/%s" % bvid) if bvid else "https://www.bilibili.com/v/popular/all"
+        out.append({
+            "title": title,
+            "url": url,
+            "summary": "B站热门",
+            "src": "B站热门", "date": "今日",
+        })
+        if len(out) >= max_n:
+            break
+    return out
+
 # ===================== 板块构建（按当前 index.html 的 9 个板块标签映射） =====================
 def _san(s):
     """清洗会破坏 JS 字符串字面量的字符：U+2028/U+2029、零宽字符、非常规控制字符。"""
@@ -260,9 +351,43 @@ def _live_zhihu(n=10):
         out.append(_item(r["title"], r.get("date") or "今日", "知乎热榜", r["url"], summary, True))
     return out
 
+def _live_hotspot(n=20):
+    """「今日热点速览」：百度热搜 + 微博热搜 + B站热门 多源轮转交错，再用水新闻池补齐。
+    轮转保证板块内就混排了多个热点站；全程走 CLAIMED 跨板块去重，保证与其他板块互不重复。"""
+    pools = [_get_baidu_hot(), _get_weibo_hot(), _get_bili_hot()]
+    idx = [0] * len(pools)
+    out = []
+    # 多源轮转交错，直到凑满 n 条或各热榜耗尽
+    added = True
+    while len(out) < n and added:
+        added = False
+        for pi, pool in enumerate(pools):
+            if idx[pi] >= len(pool):
+                continue
+            it = pool[idx[pi]]; idx[pi] += 1
+            k = _claim_key(it)
+            if k in CLAIMED:
+                continue
+            CLAIMED.add(k)
+            out.append(_item(it["title"], "今日", it.get("src", "热搜"), it["url"], it.get("summary") or "点击查看详情", True))
+            added = True
+            if len(out) >= n:
+                break
+    # 热搜不足 n 条时，用新闻池（36氪 + Bing）补齐，同样跳过已认领项
+    if len(out) < n:
+        for it in _build_pool():
+            k = _claim_key(it)
+            if k in CLAIMED:
+                continue
+            CLAIMED.add(k)
+            out.append(_item(it["title"], _md(it["date"]), it["src"], it["url"], it["summary"] or "点击查看详情", True))
+            if len(out) >= n:
+                break
+    return out
+
 # 哪些板块走实时抓取（key = index.html 中的板块 label，value = 抓取函数）
 LIVE = {
-    "今日热点速览": lambda: _live_pool_items(None, 12),
+    "今日热点速览": lambda: _live_hotspot(20),
     "知乎热榜": lambda: _live_zhihu(10),
     "企业动态与真实问题": lambda: _live_pool_items(
         ["企业", "业绩", "融资", "上市", "IPO", "财报", "公司", "股价", "市值", "营收", "净利", "ST", "立案", "退市"], 14),
