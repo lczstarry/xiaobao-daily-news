@@ -385,7 +385,8 @@ LIVE = {
 MIN_LIVE = 3  # 抓取条数低于此值则回退到原精选内容（保证页面永不空）
 
 # 板块展示顺序与成员（build_news.py 为顺序与成员的「唯一权威」，不依赖 index.html 当前顺序）：
-# 取消「B站热门」；「百度热点」「微博热搜」移至列表末尾。不在下表且不属删除集的板块保持原序追加。
+# 取消「B站热门」；「百度热点」「微博热搜」「夸克24小时热点」置于热点区末尾；「小宝收藏」（原微信收藏）置于最末。
+# 不在下表且不属删除集的板块保持原序追加。
 _SECTION_ORDER = [
     "今日热点速览",
     "知乎热榜",
@@ -395,12 +396,15 @@ _SECTION_ORDER = [
     "项目申报相关信息",
     "地方与院校要闻（东财 / 大连 / 北京 / 辽宁 / 山东）",
     "产业链 · 供应链 · 链长制",
-    "微信收藏 · 小宝的最新收藏",
     "百度热点",
     "微博热搜",
     "夸克24小时热点",
+    "小宝收藏",
 ]
 _SECTION_REMOVED = {"B站热门"}  # 用户要求取消的板块
+# 板块标签重命名（用户要求：微信收藏 → 小宝收藏）；卡片来源标签同步重命名
+_SECTION_RENAME = {"微信收藏 · 小宝的最新收藏": "小宝收藏"}
+_SRC_RENAME = {"微信收藏": "小宝收藏"}
 
 def _is_today(ds):
     if not ds:
@@ -444,9 +448,11 @@ def refresh(obj):
         except Exception:
             items = []
         live_items[label] = items
-    # 按权威顺序输出板块：剔除已取消板块，_SECTION_ORDER 内按表序，其余保持原序追加；
+    # 按权威顺序输出板块：剔除已取消板块，应用重命名，_SECTION_ORDER 内按表序，其余保持原序追加；
     # 并自动补齐 index.html 中尚缺的 LIVE 板块（自举：首次运行注入，之后正常刷新）。
     kept = [s for s in obj.get("sections", []) if s.get("label") not in _SECTION_REMOVED]
+    for s in kept:
+        s["label"] = _SECTION_RENAME.get(s["label"], s["label"])  # 板块标签重命名（微信收藏 → 小宝收藏）
     ranked = sorted(
         kept,
         key=lambda s: _SECTION_ORDER.index(s["label"]) if s["label"] in _SECTION_ORDER else len(_SECTION_ORDER),
@@ -473,8 +479,11 @@ def refresh(obj):
                 items = [_clean_item(it) for it in items]
             sections.append({"label": label, "items": items, "weather": bool(sec.get("weather"))})
         else:
-            # 常青 / 收藏类（高校·教育、项目申报、产业链·链长制、微信收藏）：原样保留，仅按当日重算 is_new
+            # 常青 / 收藏类（高校·教育、项目申报、产业链·链长制、小宝收藏）：原样保留，仅按当日重算 is_new
             items = [dict(_clean_item(it), is_new=_is_today(it.get("date"))) for it in sec.get("items", [])]
+            for it in items:
+                if it.get("src") in _SRC_RENAME:
+                    it["src"] = _SRC_RENAME[it["src"]]  # 卡片来源标签同步重命名
             sections.append({"label": label, "items": items, "weather": bool(sec.get("weather"))})
     new_count = sum(1 for s in sections for it in s["items"] if it.get("is_new"))
     return {
