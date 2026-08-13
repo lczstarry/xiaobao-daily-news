@@ -1,9 +1,9 @@
 name: 每日要闻自动刷新
 
 on:
-  schedule:
+  #@schedule:
     # 每小时第 16 分钟触发一次（北京时间）
-    - cron: "16 * * * *"
+    #- cron: "16 * * * *"
   workflow_dispatch:
 
 permissions:
